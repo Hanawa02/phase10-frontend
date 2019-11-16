@@ -1,23 +1,53 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import GamesOverview from "../views/GamesOverview.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home
+    name: "games",
+    component: GamesOverview
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/games/new",
+    name: "newGame",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import(/* webpackChunkName: "gamesCreate" */ "../views/GamesCreate.vue")
+  },
+  {
+    path: "/games/:id",
+    name: "gameDetails",
+    component: () =>
+      import(/* webpackChunkName: "gameDetails" */ "../views/GameDetails.vue")
+  },
+  {
+    path: "/games/:id/finishRound",
+    name: "finishRound",
+    component: () =>
+      import(
+        /* webpackChunkName: "gameFinishRound" */ "../views/GameFinishRound.vue"
+      )
+  },
+  {
+    path: "/games/:id/summary",
+    name: "gameSummary",
+    component: () =>
+      import(/* webpackChunkName: "gameSummary" */ "../views/GameSummary.vue")
+  },
+  {
+    path: "/users",
+    name: "Users",
+    component: () =>
+      import(/* webpackChunkName: "users" */ "../views/Users.vue")
+  },
+  {
+    // will match everything
+    path: "*",
+    name: "Page Not Found",
+    component: () =>
+      import(/* webpackChunkName: "pagenotfound" */ "../views/NotFound.vue")
   }
 ];
 
