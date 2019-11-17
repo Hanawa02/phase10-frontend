@@ -1,29 +1,39 @@
 import UsersService from "@/services/UsersService";
 
 export default {
-  GamesList: [
+  cachedGameList: [
     {
       id: 1,
       title: "Family",
       players: [
-        { id: 1, name: "Niklas" },
-        { id: 3, name: "Alina" },
-        { id: 4, name: "Birgit" },
-        { id: 5, name: "Lüdger" }
+        { id: 1, name: "Niklas", phase: 2, score: 28 },
+        { id: 3, name: "Alina", phase: 2, score: 28 },
+        { id: 4, name: "Birgit", phase: 2, score: 28 },
+        { id: 5, name: "Lüdger", phase: 2, score: 28 }
       ]
     },
     {
       id: 2,
       title: "Family + Laura",
       players: [
-        { id: 1, name: "Niklas" },
-        { id: 2, name: "Laura" },
-        { id: 3, name: "Alina" },
-        { id: 4, name: "Birgit" },
-        { id: 5, name: "Lüdger" }
+        { id: 1, name: "Niklas", phase: 2, score: 28 },
+        { id: 2, name: "Laura", phase: 2, score: 28 },
+        { id: 3, name: "Alina", phase: 2, score: 28 },
+        { id: 4, name: "Birgit", phase: 2, score: 28 },
+        { id: 5, name: "Lüdger", phase: 2, score: 28 }
       ]
     }
   ],
+
+  selectedGameData: {},
+
+  setSelectedGame(gameId) {
+    this.selectedGameData = this.getGame(gameId);
+  },
+
+  getSelectedGame() {
+    return this.selectedGameData;
+  },
 
   addGame(gameTitle, playersIds) {
     let users = playersIds.map(function(playerId) {
@@ -33,24 +43,31 @@ export default {
     });
 
     let game = {
-      id: this.GamesList.length + 2,
+      id: this.cachedGameList.length + 2,
       title: gameTitle,
       players: users
     };
 
-    this.GamesList.push(game);
+    this.cachedGameList.push(game);
   },
 
   deleteGame(gameId) {
-    let list = this.GamesList.filter(function(game) {
+    let list = this.cachedGameList.filter(function(game) {
       return game.id != gameId;
     });
     console.log(list);
 
-    this.GamesList = list;
+    this.cachedGameList = list;
   },
 
   getGames() {
-    return this.GamesList;
+    // add logic here to only get data from server if the cached game list is empty
+    return this.cachedGameList;
+  },
+
+  getGame(id) {
+    return this.cachedGameList.find(function(game) {
+      return game.id == id;
+    });
   }
 };

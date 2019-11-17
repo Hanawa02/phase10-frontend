@@ -1,5 +1,5 @@
 <template>
-  <div class="grid">
+  <div class="grid" @click="selectGame()">
     <div>
       <div>{{ game.title }}</div>
       <button @click="deleteGame()">
@@ -14,6 +14,7 @@
 
 <script>
 import GamesService from "@/services/GamesService.js";
+import router from "@/router/index.js";
 
 export default {
   name: "GameOverview",
@@ -25,6 +26,10 @@ export default {
     deleteGame() {
       GamesService.deleteGame(this.game.id);
       this.$emit("element-deleted");
+    },
+    selectGame() {
+      GamesService.setSelectedGame(this.game.id);
+      router.push("/games/" + this.game.id);
     }
   }
 };

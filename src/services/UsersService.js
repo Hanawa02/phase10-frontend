@@ -28,11 +28,17 @@ export default {
     return this.UserList;
   },
 
-  /* Can be deleted after connection to server */
-  getUserName(id) {
+  getUser(id) {
     let user = this.UserList.find(function(user) {
       return user.id == id;
     });
+
+    return user;
+  },
+
+  /* Can be deleted after connection to server */
+  getUserName(id) {
+    let user = this.getUser(id);
 
     if (user != undefined) {
       return user.name;
