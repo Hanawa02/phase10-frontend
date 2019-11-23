@@ -4,18 +4,18 @@
     <div
       v-for="user in users"
       :key="user.id"
-      :class="{ selected: userIsInPlayersList(user.id) }"
+      :class="{ selected: userIsInUsersList(user.id) }"
     >
       <div class="name-column">{{ user.name }}</div>
       <div class="delete-column">
         <button @click="toggleUser(user.id)">
           <font-awesome-icon
             icon="times-circle"
-            v-if="userIsInPlayersList(user.id)"
+            v-if="userIsInUsersList(user.id)"
           />
           <font-awesome-icon
             icon="check-circle"
-            v-if="!userIsInPlayersList(user.id)"
+            v-if="!userIsInUsersList(user.id)"
           />
         </button>
       </div>
@@ -37,48 +37,49 @@ import router from "@/router/index.js";
 
 export default {
   name: "GamesOverview",
-  components: {},
   data() {
     return {
       users: UsersService.getUsers(),
       gameTitle: "",
-      playersIds: []
+      usersIds: []
     };
   },
   methods: {
     saveGame() {
-      GamesService.addGame(this.gameTitle, this.playersIds);
+      GamesService.addGame(this.gameTitle, this.usersIds);
       this.goToGamesOverview();
     },
     goToGamesOverview() {
-      router.push("/");
+      router.push({
+        name: "games"
+      });
     },
-    userIsInPlayersList(id) {
+    userIsInUsersList(id) {
       let isInList =
-        this.playersIds.find(function(playerId) {
-          return playerId == id;
+        this.usersIds.find(function(userId) {
+          return userId == id;
         }) != undefined;
 
       return isInList;
     },
-    toggleUser(playerId) {
-      if (this.userIsInPlayersList(playerId)) {
-        this.removeUser(playerId);
+    toggleUser(userId) {
+      if (this.userIsInUsersList(userId)) {
+        this.removeUser(userId);
       } else {
-        this.playersIds.push(playerId);
+        this.usersIds.push(userId);
       }
     },
-    removeUser(playerId) {
-      let list = this.playersIds.filter(function(id) {
-        return id != playerId;
+    removeUser(userId) {
+      let list = this.usersIds.filter(function(id) {
+        return id != userId;
       });
 
-      this.playersIds = list;
+      this.usersIds = list;
     }
   },
   computed: {
     disableSaveButton() {
-      return this.gameTitle == "" || this.playersIds.length == 0;
+      return this.gameTitle == "" || this.usersIds.length == 0;
     }
   }
 };

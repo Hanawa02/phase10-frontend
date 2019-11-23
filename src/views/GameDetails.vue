@@ -1,11 +1,8 @@
 <template>
-  <div class="games">
+  <div class="games" v-if="game">
     <div>{{ game.title }}</div>
-    <div v-for="player in game.players" v-bind:key="player.id">
-      <GameUserDetails
-        :user="player"
-        @winner-selected="finishRound(player.id)"
-      />
+    <div v-for="user in game.users" v-bind:key="user.id">
+      <GameUserDetails :user="user" @winner-selected="finishRound(user)" />
     </div>
   </div>
 </template>
@@ -21,17 +18,21 @@ export default {
   components: { GameUserDetails },
   data() {
     return {
-      game: this.getGameData()
+      game: {}
     };
   },
+  created() {
+    this.getGameData();
+  },
   methods: {
-    finishRound(userId) {
+    finishRound(user) {
+      console.log(user);
       router.push({
         name: "finishRound",
         params: {
           id: this.game.id,
-          gameTitle: this.game.title,
-          usersPhaseStatus: []
+          game: this.game,
+          winner: user
         }
       });
     },
@@ -42,6 +43,12 @@ export default {
         this.game = selectedGame;
       } else {
         this.game = GamesService.getGame(this.$route.params.id);
+      }
+
+      if (this.game == undefined) {
+        router.push({
+          name: "games"
+        });
       }
     }
   }

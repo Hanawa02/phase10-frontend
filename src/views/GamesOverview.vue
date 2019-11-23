@@ -33,7 +33,9 @@ export default {
       this.games = GamesService.getGames();
     },
     goToNewGamePage() {
-      router.push("/games/new");
+      router.push({
+        name: "newGame"
+      });
     }
   }
 };

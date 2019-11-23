@@ -17,7 +17,6 @@ import UsersService from "@/services/UsersService";
 
 export default {
   name: "UserList",
-  components: {},
   data() {
     return {
       users: UsersService.getUsers()

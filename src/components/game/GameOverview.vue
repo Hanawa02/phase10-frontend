@@ -6,8 +6,8 @@
         <font-awesome-icon icon="user-secret" />
       </button>
     </div>
-    <div v-for="player in game.players" v-bind:key="player.id">
-      {{ player.name }}
+    <div v-for="user in game.users" v-bind:key="user.id">
+      {{ user.name }}
     </div>
   </div>
 </template>
@@ -18,7 +18,6 @@ import router from "@/router/index.js";
 
 export default {
   name: "GameOverview",
-  components: {},
   props: {
     game: Object
   },
@@ -29,7 +28,12 @@ export default {
     },
     selectGame() {
       GamesService.setSelectedGame(this.game.id);
-      router.push("/games/" + this.game.id);
+      router.push({
+        name: "gameDetails",
+        params: {
+          id: this.game.id
+        }
+      });
     }
   }
 };

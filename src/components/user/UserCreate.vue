@@ -13,7 +13,6 @@ import UsersService from "@/services/UsersService";
 
 export default {
   name: "UserCreate",
-  components: {},
   data() {
     return {
       userName: ""
