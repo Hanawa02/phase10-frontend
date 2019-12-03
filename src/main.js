@@ -5,11 +5,21 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faUserSecret,
   faCheckCircle,
-  faTimesCircle
+  faTimesCircle,
+  faUsers,
+  faCaretLeft,
+  faHome
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faUserSecret, faCheckCircle, faTimesCircle);
+library.add(
+  faUserSecret,
+  faCheckCircle,
+  faTimesCircle,
+  faUsers,
+  faCaretLeft,
+  faHome
+);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
