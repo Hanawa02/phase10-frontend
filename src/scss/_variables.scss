@@ -7,9 +7,12 @@ $blue-medium-dark: #03396c;
 $blue-dark: #011f4b;
 $white: #ffffff;
 $black: #000000;
+$gold: #d4af37;
+$silver: #c0c0c0;
+$bronze: #cd7f32;
 
 /* Fonts */
-@import url("https://fonts.googleapis.com/css?family=Play|Playball&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Play|Playball|Roboto&display=swap");
 
 /* Screen Sizes */
 
@@ -17,3 +20,128 @@ $screen-small: 576px;
 $screen-medium: 768px;
 $screen-large: 992px;
 $screen-extra-large: 1200px;
+
+/* Mixins */
+
+@mixin title-style-with-font($margin-bottom, $border-bottom-color) {
+  @include title-style($margin-bottom, $border-bottom-color);
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+@mixin title-style($margin-bottom, $border-bottom-color) {
+  padding: 5px;
+  color: $blue-medium-dark;
+  text-align: center;
+  border-bottom: 1px solid $border-bottom-color;
+  margin-bottom: $margin-bottom;
+  position: relative;
+}
+
+@mixin subtitle-background {
+  background-color: $blue-light;
+}
+
+@mixin title-text-style {
+  margin: 0 auto;
+  display: inline-block;
+  color: $blue-medium-dark;
+}
+
+@mixin title-button-style($fontsize) {
+  float: right;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+
+  font-size: $fontsize;
+  @include icon-button($blue-medium-dark);
+}
+
+@mixin details {
+  display: flex;
+  color: $blue-dark;
+  padding: 5px 0px;
+
+  .name {
+    width: calc(40% - 5px);
+  }
+
+  .phase {
+    width: 20%;
+  }
+
+  .score {
+    width: 20%;
+  }
+
+  .phase-completed {
+    width: 10%;
+  }
+
+  .winner-button {
+    width: 10%;
+    color: $blue-medium-dark;
+  }
+}
+
+@mixin icon-button($color) {
+  color: $color;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+@mixin user-list-and-button {
+  color: $blue-dark;
+  margin: 10px;
+
+  .user {
+    border-bottom: 1px solid $blue-light;
+    padding: 2px;
+
+    .name {
+      width: 90%;
+      display: inline-block;
+    }
+
+    .delete-button {
+      @include icon-button($blue-medium-dark);
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+@mixin description {
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  align-self: center;
+  border: 1px solid $blue-light;
+  padding: 3px;
+  font-size: 1rem;
+}
+
+@mixin save-button {
+  margin: 15px auto;
+  @include icon-button($blue-medium-dark);
+  font-size: 1.28rem;
+
+  &:disabled {
+    color: $blue-light;
+  }
+}
+
+@mixin standard-button {
+  border: 1px solid $blue-dark;
+  background-color: $blue-light;
+  color: $blue-dark;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 5px;
+  font-family: "Play";
+  font-size: 1rem;
+  font-weight: bold;
+}

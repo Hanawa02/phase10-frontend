@@ -24,11 +24,11 @@ export default {
   updateUsersList() {
     // set the internal list to the content from server.
 
-    this.cachedUserList.push({ id: 1, name: "Niklas" });
-    this.cachedUserList.push({ id: 2, name: "Laura" });
-    this.cachedUserList.push({ id: 3, name: "Alina" });
-    this.cachedUserList.push({ id: 4, name: "Birgit" });
-    this.cachedUserList.push({ id: 5, name: "Ludger" });
+    this.cachedUserList.push({ id: 1, name: "Player 2" });
+    this.cachedUserList.push({ id: 2, name: "Player 08" });
+    this.cachedUserList.push({ id: 3, name: "Player 128" });
+    this.cachedUserList.push({ id: 4, name: "Player 1280" });
+    this.cachedUserList.push({ id: 5, name: "Player" });
   },
 
   updateUsersListIfEmpty() {

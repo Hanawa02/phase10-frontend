@@ -1,30 +1,50 @@
 <template>
   <div id="app">
-    <div class="logo">Phase <span class="logo-10">10</span></div>
+    <div class="logo">
+      Phase
+      <span class="logo-10">10</span>
+    </div>
 
     <div id="nav">
-      <!-- <a @click="$router.go(-1)"
-        ><font-awesome-icon icon="caret-left" /> Return</a
-      > -->
       <router-link to="/">
-        <font-awesome-icon icon="home" /> Games
+        <font-awesome-icon icon="home" />
       </router-link>
 
       <router-link to="/users">
-        <font-awesome-icon icon="users" /> Users
+        <font-awesome-icon icon="users" />
       </router-link>
+
+      <font-awesome-icon icon="compress" @click="goFullScreen()" />
     </div>
-    <router-view class="app-container" />
+    <router-view id="app-container" />
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    goFullScreen() {
+      document.getElementById("app").requestFullscreen();
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 @import "./scss/_variables.scss";
 
+#app {
+  background-color: white;
+
+  &:fullscreen {
+    background-color: white;
+  }
+}
+
 body {
   margin: 0;
 }
-.app-container {
+#app-container {
   margin-bottom: calc(1em + 40px);
 }
 
@@ -82,27 +102,27 @@ body {
   }
 }
 
-@media screen and (min-width: $screen-large) {
-  #nav {
-    overflow: hidden;
-    position: initial;
-    border-top: none;
-    margin-bottom: 10px;
-    border-bottom: 2px solid $blue-light-medium;
-    width: auto;
-    background-color: $blue-medium;
+// @media screen and (min-width: $screen-large) {
+//   #nav {
+//     overflow: hidden;
+//     position: initial;
+//     border-top: none;
+//     margin-bottom: 10px;
+//     border-bottom: 2px solid $blue-light-medium;
+//     width: auto;
+//     background-color: $blue-medium;
 
-    a {
-      color: $blue-light-medium;
+//     a {
+//       color: $blue-light-medium;
 
-      &.router-link-exact-active {
-        color: $white;
-      }
-    }
-  }
+//       &.router-link-exact-active {
+//         color: $white;
+//       }
+//     }
+//   }
 
-  .logo {
-    margin-bottom: 0;
-  }
-}
+//   .logo {
+//     margin-bottom: 0;
+//   }
+// }
 </style>

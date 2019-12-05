@@ -61,23 +61,24 @@ export default {
 
     this.cachedGameList.push({
       id: 1,
-      title: "Family",
+      title: "Game 1",
       users: [
-        { id: 1, name: "Niklas", phase: 10, score: 28 },
-        { id: 3, name: "Alina", phase: 2, score: 28 },
-        { id: 4, name: "Birgit", phase: 2, score: 28 },
-        { id: 5, name: "Ludger", phase: 2, score: 28 }
+        { id: 1, name: "Player 1", phase: 10, score: 28 },
+        { id: 3, name: "Player 3", phase: 2, score: 28 },
+        { id: 4, name: "Player 4", phase: 8, score: 28 },
+        { id: 5, name: "Player 5", phase: 2, score: 28 }
       ]
     });
+
     this.cachedGameList.push({
       id: 2,
-      title: "Family + Laura",
+      title: "Game 2",
       users: [
-        { id: 1, name: "Niklas", phase: 7, score: 28 },
-        { id: 2, name: "Laura", phase: 8, score: 28 },
-        { id: 3, name: "Alina", phase: 10, score: 28 },
-        { id: 4, name: "Birgit", phase: 9, score: 28 },
-        { id: 5, name: "Ludger", phase: 8, score: 12 }
+        { id: 1, name: "Player 1", phase: 7, score: 28 },
+        { id: 2, name: "Player 2", phase: 8, score: 28 },
+        { id: 3, name: "Player 3", phase: 10, score: 28 },
+        { id: 4, name: "Player 4", phase: 9, score: 28 },
+        { id: 5, name: "Player 5", phase: 8, score: 12 }
       ]
     });
 

@@ -3,22 +3,32 @@ import App from "./App.vue";
 import router from "./router";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faUserSecret,
   faCheckCircle,
   faTimesCircle,
   faUsers,
-  faCaretLeft,
-  faHome
+  faHome,
+  faPlusCircle,
+  faTrashAlt,
+  faTrophy,
+  faCompress,
+  faSave,
+  faBroom,
+  faSadCry
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
-  faUserSecret,
   faCheckCircle,
   faTimesCircle,
   faUsers,
-  faCaretLeft,
-  faHome
+  faHome,
+  faPlusCircle,
+  faTrashAlt,
+  faTrophy,
+  faCompress,
+  faSave,
+  faBroom,
+  faSadCry
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

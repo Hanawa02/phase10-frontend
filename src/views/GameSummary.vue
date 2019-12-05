@@ -1,17 +1,18 @@
 <template>
   <div class="games">
+    <div class="title">Game Over</div>
     <div v-for="(user, index) in game.users" v-bind:key="user.id">
-      <GameSummaryUser :user="user" :position="index" />
+      <GameSummaryUser :user="user" :position="index + 1" />
     </div>
 
-    <div>
+    <div class="next-action">
       Create new Game with same users?
-      <div>
-        <button @click="createNewGame()">
-          Yes <font-awesome-icon icon="user-secret" />
+      <div class="buttons">
+        <button class="yes-button" @click="createNewGame()">
+          Yes
         </button>
-        <button @click="goToGameOverview()">
-          No <font-awesome-icon icon="user-secret" />
+        <button class="no-button" @click="goToGameOverview()">
+          No
         </button>
       </div>
     </div>
@@ -47,3 +48,29 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../scss/_variables.scss";
+.games {
+  font-family: "Play";
+
+  .title {
+    @include title-style-with-font(10px, $blue-light-medium);
+  }
+
+  .next-action {
+    margin: 15px 5px;
+
+    font-size: 1.1em;
+  }
+
+  .buttons {
+    margin: 15px 5px;
+
+    .yes-button,
+    .no-button {
+      @include standard-button;
+    }
+  }
+}
+</style>

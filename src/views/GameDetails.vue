@@ -1,8 +1,19 @@
 <template>
-  <div class="games" v-if="game">
-    <div>{{ game.title }}</div>
-    <div v-for="user in game.users" v-bind:key="user.id">
-      <GameUserDetails :user="user" @winner-selected="finishRound(user)" />
+  <div class="game-detail" v-if="game">
+    <div class="title">{{ game.title }}</div>
+    <div class="column-descriptin">
+      <div class="name">Player</div>
+      <div class="phase">Phase</div>
+      <div class="score">Score</div>
+      <div class="phase-completed">
+        <font-awesome-icon icon="check-circle" />
+      </div>
+      <font-awesome-icon class="winner-button" icon="trophy" />
+    </div>
+    <div class="users-container">
+      <div v-for="user in game.users" v-bind:key="user.id">
+        <GameUserDetails :user="user" @winner-selected="finishRound(user)" />
+      </div>
     </div>
   </div>
 </template>
@@ -54,3 +65,29 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../scss/_variables.scss";
+$border: 1px solid $blue-light-medium;
+
+.game-detail {
+  font-family: "Play";
+  margin: 10px;
+
+  .users-container {
+    border: $border;
+  }
+
+  .column-descriptin {
+    @include details;
+    border: $border;
+    font-weight: bold;
+    background-color: $blue-light;
+    padding: 5px 0px;
+  }
+
+  .title {
+    @include title-style-with-font(10px, $blue-light-medium);
+  }
+}
+</style>

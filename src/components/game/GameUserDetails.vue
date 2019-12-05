@@ -1,16 +1,20 @@
 <template>
-  <div class="grid">
-    <div>{{ user.name }}</div>
-    <div>{{ user.phase }}</div>
-    <div>{{ user.score }}</div>
-    <div>
-      <input type="checkbox" v-model="user.completedPhase" />
-    </div>
-    <div>
-      <button @click="selectWinner()">
-        <font-awesome-icon icon="user-secret" />
-      </button>
-    </div>
+  <div class="game-user-detail">
+    <div class="name">{{ user.name }}</div>
+    <div class="phase">{{ user.phase }}</div>
+    <div class="score">{{ user.score }}</div>
+
+    <input
+      class="phase-completed"
+      type="checkbox"
+      v-model="user.completedPhase"
+    />
+
+    <font-awesome-icon
+      icon="trophy"
+      class="winner-button"
+      @click="selectWinner()"
+    />
   </div>
 </template>
 
@@ -30,4 +34,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "../../scss/_variables.scss";
+
+.game-user-detail {
+  @include details;
+
+  .phase-completed {
+    margin: 0;
+  }
+}
+</style>

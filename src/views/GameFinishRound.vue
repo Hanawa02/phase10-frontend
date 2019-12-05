@@ -1,25 +1,28 @@
 <template>
-  <div class="games">
-    <div>
-      <div>Winner</div>
-      <div>{{ winner.name }}</div>
+  <div class="game-finish-round">
+    <div class="title">Finish round</div>
+    <div class="winner">
+      <font-awesome-icon icon="trophy" />
+      {{ winner.name }}
     </div>
-    <div v-for="user in game.users" v-bind:key="user.id">
+    <div class="user-container" v-for="user in game.users" v-bind:key="user.id">
       <GameFinishRoundUser
         v-if="user.id != winner.id"
         :user="user"
         @points-updated="toggleSaveButton()"
       />
     </div>
-    <div>
+    <div class="doubled-button">
       <input type="checkbox" v-model="doubled" />
       <label>Double Points</label>
     </div>
-    <div>
-      <button @click="saveRound()" :disabled="disableSaveButton">
-        <font-awesome-icon icon="user-secret" />
-      </button>
-    </div>
+    <button
+      class="save-button"
+      @click="saveRound()"
+      :disabled="disableSaveButton"
+    >
+      <font-awesome-icon icon="save" />
+    </button>
   </div>
 </template>
 
@@ -84,3 +87,33 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../scss/_variables.scss";
+
+.game-finish-round {
+  font-family: "Play";
+  margin: 10px;
+
+  .title {
+    @include title-style-with-font(10px, $blue-light-medium);
+  }
+
+  .winner {
+    color: $blue-dark;
+    margin: 15px 5px;
+  }
+
+  .doubled-button {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $blue-dark;
+  }
+
+  .save-button {
+    @include save-button;
+  }
+}
+</style>

@@ -1,8 +1,9 @@
 <template>
-  <div class="grid">
-    <div>
-      <button @click="goToNewGamePage()">
-        <font-awesome-icon icon="user-secret" />
+  <div class="games-overview">
+    <div class="title">
+      <h1 class="text">Games</h1>
+      <button id="new-game-button" @click="goToNewGamePage()">
+        <font-awesome-icon icon="plus-circle" />
       </button>
     </div>
     <div v-for="gameItem in games" :key="gameItem.id">
@@ -40,3 +41,23 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../scss/_variables.scss";
+
+.games-overview {
+  font-family: "Play";
+  margin: 10px;
+
+  .title {
+    @include title-style(10px, $blue-medium-dark);
+
+    .text {
+      @include title-text-style;
+    }
+    #new-game-button {
+      @include title-button-style(1.8rem);
+    }
+  }
+}
+</style>

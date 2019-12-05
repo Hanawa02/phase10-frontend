@@ -1,30 +1,40 @@
 <template>
-  <div class="grid">
-    <input type="text" name="TitleInput" v-model="gameTitle" />
-    <div
-      v-for="user in users"
-      :key="user.id"
-      :class="{ selected: userIsInUsersList(user.id) }"
-    >
-      <div class="name-column">{{ user.name }}</div>
-      <div class="delete-column">
-        <button @click="toggleUser(user.id)">
+  <div class="game-create">
+    <input
+      class="description"
+      type="text"
+      name="TitleInput"
+      v-model="gameTitle"
+      placeholder="game description"
+    />
+    <div class="users-container">
+      <div
+        v-for="user in users"
+        :key="user.id"
+        :class="{ selected: userIsInUsersList(user.id), user: true }"
+      >
+        <div class="name" @click="toggleUser(user.id)">{{ user.name }}</div>
+        <button class="delete-button" @click="toggleUser(user.id)">
           <font-awesome-icon
+            class="not-included"
             icon="times-circle"
-            v-if="userIsInUsersList(user.id)"
+            v-if="!userIsInUsersList(user.id)"
           />
           <font-awesome-icon
+            class="included"
             icon="check-circle"
-            v-if="!userIsInUsersList(user.id)"
+            v-if="userIsInUsersList(user.id)"
           />
         </button>
       </div>
     </div>
-    <div>
-      <button @click="saveGame()" :disabled="disableSaveButton">
-        <font-awesome-icon icon="user-secret" />
-      </button>
-    </div>
+    <button
+      class="save-button"
+      @click="saveGame()"
+      :disabled="disableSaveButton"
+    >
+      <font-awesome-icon icon="save" />
+    </button>
   </div>
 </template>
 
@@ -79,14 +89,41 @@ export default {
   },
   computed: {
     disableSaveButton() {
-      return this.gameTitle == "" || this.usersIds.length == 0;
+      return this.gameTitle == "" || this.usersIds.length <= 1;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.selected {
-  background-color: #ccc;
+@import "../../scss/_variables.scss";
+.game-create {
+  .description {
+    @include description;
+  }
+
+  .users-container {
+    @include user-list-and-button;
+
+    .user {
+      .delete-button {
+        .not-included {
+          color: red;
+        }
+
+        .included {
+          color: green;
+          background-color: white;
+          border-radius: 50%;
+        }
+      }
+    }
+    .selected {
+      background-color: $blue-light;
+    }
+  }
+  .save-button {
+    @include save-button;
+  }
 }
 </style>

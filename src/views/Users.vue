@@ -1,6 +1,6 @@
 <template>
   <div class="games">
-    <div>users</div>
+    <div class="title">Users</div>
     <UserCreate></UserCreate>
     <UserList></UserList>
   </div>
@@ -16,3 +16,10 @@ export default {
   components: { UserList, UserCreate }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../scss/_variables.scss";
+.title {
+  @include title-style-with-font(0px, $blue-light);
+}
+</style>
