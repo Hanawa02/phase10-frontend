@@ -72,7 +72,7 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   color: $blue-medium;
-  width: 100vw;
+  width: 100%;
 
   display: flex;
   flex-wrap: nowrap;
@@ -84,6 +84,7 @@ body {
   overflow: hidden;
   position: fixed;
   bottom: 0;
+  left: 0;
   border-top: 2px solid $blue-light-medium;
   background-color: $blue-light;
 
