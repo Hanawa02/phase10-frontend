@@ -1,13 +1,13 @@
 <template>
   <div class="game-user-detail">
-    <div class="name">{{ user.name }}</div>
-    <div class="phase">{{ user.phase }}</div>
-    <div class="score">{{ user.score }}</div>
+    <div class="name">{{ userSnapshot.user.name }}</div>
+    <div class="phase">{{ userSnapshot.phase }}</div>
+    <div class="points">{{ userSnapshot.points }}</div>
 
     <input
       class="phase-completed"
       type="checkbox"
-      v-model="user.completedPhase"
+      v-model="userSnapshot.completedPhase"
     />
 
     <font-awesome-icon
@@ -22,11 +22,11 @@
 export default {
   name: "GameUserDetails",
   props: {
-    user: Object
+    userSnapshot: Object
   },
   methods: {
     selectWinner() {
-      this.user.completedPhase = true;
+      this.userSnapshot.completedPhase = true;
 
       this.$emit("winner-selected");
     }

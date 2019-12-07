@@ -5,16 +5,20 @@
       <font-awesome-icon icon="trophy" />
       {{ winner.name }}
     </div>
-    <div class="user-container" v-for="user in game.users" v-bind:key="user.id">
+    <div
+      class="user-container"
+      v-for="userSnapshot in game.userSnapshots"
+      v-bind:key="userSnapshot.id"
+    >
       <GameFinishRoundUser
-        v-if="user.id != winner.id"
-        :user="user"
-        @points-updated="toggleSaveButton()"
+        v-if="userSnapshot.user.id != winner.id"
+        :userSnapshot="userSnapshot"
+        @score-updated="toggleSaveButton()"
       />
     </div>
     <div class="doubled-button">
       <input type="checkbox" v-model="doubled" />
-      <label>Double Points</label>
+      <label @click="doubled = !doubled">Double Points</label>
     </div>
     <button
       class="save-button"
@@ -38,23 +42,22 @@ export default {
   data() {
     return {
       winner: this.$route.params.winner,
-      game: this.$route.params.game,
+      game: this.$route.params.gameSnapshot,
       doubled: false,
       disableSaveButton: true
     };
   },
   methods: {
-    saveRound() {
+    async saveRound() {
       let shouldShowSummary = GamesService.gameFinished(this.game);
 
-      GamesService.saveRound(this.game, this.winner, this.doubled);
+      await GamesService.saveRound(this.game, this.winner, this.doubled);
 
       if (shouldShowSummary) {
         router.push({
           name: "gameSummary",
           params: {
-            id: this.game.id,
-            game: this.game
+            id: this.game.id
           }
         });
       } else {
@@ -69,10 +72,12 @@ export default {
     toggleSaveButton() {
       let exit = false;
 
-      this.game.users.forEach(user => {
+      this.game.userSnapshots.forEach(userSnapshot => {
         if (
-          user.id != this.winner.id &&
-          (user.points == undefined || user.points == null || user.points == 0)
+          userSnapshot.user.id != this.winner.id &&
+          (userSnapshot.user.score == undefined ||
+            userSnapshot.user.score == null ||
+            userSnapshot.user.score == 0)
         ) {
           this.disableSaveButton = true;
           exit = true;

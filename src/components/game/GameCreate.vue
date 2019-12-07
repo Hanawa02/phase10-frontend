@@ -47,16 +47,19 @@ import router from "@/router/index.js";
 
 export default {
   name: "GamesOverview",
+  async mounted() {
+    this.users = await UsersService.getUsers();
+  },
   data() {
     return {
-      users: UsersService.getUsers(),
+      users: [],
       gameTitle: "",
       usersIds: []
     };
   },
   methods: {
-    saveGame() {
-      GamesService.addGame(this.gameTitle, this.usersIds);
+    async saveGame() {
+      await GamesService.addGame(this.gameTitle, this.usersIds);
       this.goToGamesOverview();
     },
     goToGamesOverview() {

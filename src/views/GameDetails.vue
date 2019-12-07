@@ -4,15 +4,21 @@
     <div class="column-descriptin">
       <div class="name">Player</div>
       <div class="phase">Phase</div>
-      <div class="score">Score</div>
+      <div class="points">Points</div>
       <div class="phase-completed">
         <font-awesome-icon icon="check-circle" />
       </div>
       <font-awesome-icon class="winner-button" icon="trophy" />
     </div>
     <div class="users-container">
-      <div v-for="user in game.users" v-bind:key="user.id">
-        <GameUserDetails :user="user" @winner-selected="finishRound(user)" />
+      <div
+        v-for="userSnapshot in game.userSnapshots"
+        v-bind:key="userSnapshot.id"
+      >
+        <GameUserDetails
+          :userSnapshot="userSnapshot"
+          @winner-selected="finishRound(userSnapshot)"
+        />
       </div>
     </div>
   </div>
@@ -36,24 +42,23 @@ export default {
     this.getGameData();
   },
   methods: {
-    finishRound(user) {
-      console.log(user);
+    finishRound(userSnapshot) {
       router.push({
         name: "finishRound",
         params: {
           id: this.game.id,
-          game: this.game,
-          winner: user
+          gameSnapshot: this.game,
+          winner: userSnapshot.user
         }
       });
     },
     getGameData() {
-      let selectedGame = GamesService.getSelectedGame();
+      let selectedGame = GamesService.selectedGameSnapshot;
 
       if (selectedGame.id == this.$route.params.id) {
         this.game = selectedGame;
       } else {
-        this.game = GamesService.getGame(this.$route.params.id);
+        this.game = GamesService.getGameSnapshot(this.$route.params.id);
       }
 
       if (this.game == undefined) {

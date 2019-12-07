@@ -14,17 +14,47 @@
         <font-awesome-icon icon="users" />
       </router-link>
 
-      <font-awesome-icon icon="compress" @click="goFullScreen()" />
+      <font-awesome-icon
+        v-if="!onFullScreen"
+        icon="compress"
+        @click="goFullScreen()"
+      />
+      <font-awesome-icon
+        v-if="onFullScreen"
+        icon="caret-left"
+        @click="goBack()"
+      />
     </div>
     <router-view id="app-container" />
   </div>
 </template>
 
 <script>
+import router from "@/router/index.js";
+
 export default {
+  mounted() {
+    document.addEventListener("fullscreenchange", this.updateButton);
+  },
+  data() {
+    return {
+      isOnFullScreen: false
+    };
+  },
   methods: {
     goFullScreen() {
       document.getElementById("app").requestFullscreen();
+    },
+    goBack() {
+      router.go(-1);
+    },
+    updateButton() {
+      this.isOnFullScreen = document.fullscreenElement != null;
+    }
+  },
+  computed: {
+    onFullScreen() {
+      return this.isOnFullScreen;
     }
   }
 };

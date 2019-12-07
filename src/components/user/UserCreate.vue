@@ -25,8 +25,8 @@ export default {
     };
   },
   methods: {
-    addUser() {
-      UsersService.addUser(this.userName);
+    async addUser() {
+      await UsersService.addUser(this.userName);
       this.userName = "";
     }
   },

@@ -24,14 +24,17 @@ import router from "@/router/index.js";
 export default {
   name: "GamesOverview",
   components: { GameOverview },
+  async mounted() {
+    this.games = await GamesService.getGames();
+  },
   data() {
     return {
-      games: GamesService.getGames()
+      games: []
     };
   },
   methods: {
-    updateGamesList() {
-      this.games = GamesService.getGames();
+    async updateGamesList() {
+      this.games = await GamesService.getGames();
     },
     goToNewGamePage() {
       router.push({

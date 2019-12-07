@@ -1,118 +1,115 @@
-import UsersService from "@/services/UsersService";
+import axios from "axios";
 
 export default {
+  baseUrl: "http://192.168.178.101:3000",
+
   cachedGameList: [],
 
-  selectedGameData: {},
+  selectedGameSnapshot: {},
 
-  setSelectedGame(gameId) {
-    this.selectedGameData = this.getGame(gameId);
+  async setSelectedGame(gameId) {
+    this.selectedGameSnapshot = await this.getGameSnapshot(gameId);
   },
 
   getSelectedGame() {
-    return this.selectedGameData;
+    return this.selectedGameSnapshot;
   },
 
-  addGame(gameTitle, userIds) {
-    let usersAdded = userIds.map(function(userId) {
-      let uesrName = UsersService.getUserName(userId);
-
-      return { id: userId, name: uesrName };
-    });
-
-    let game = {
-      id: this.cachedGameList.length + 2,
+  async addGame(gameTitle, userIds) {
+    let response = await axios.post(`${this.baseUrl}/games`, {
       title: gameTitle,
-      users: usersAdded
-    };
-
-    // * will push the created game returned by the server to the "cached" list
-    this.cachedGameList.push(game);
+      userIds: userIds
+    });
+    this.cachedGameList.push(response.data);
   },
 
-  deleteGame(gameId) {
-    // * just call the delete from server and keep the removing from the "cached" list like it is
+  async deleteGame(gameId) {
+    await axios.delete(`${this.baseUrl}/games/${gameId}`);
 
     let list = this.cachedGameList.filter(function(game) {
       return game.id != gameId;
     });
-    console.log(list);
 
     this.cachedGameList = list;
   },
 
-  getGames() {
-    this.updateGamesListIfEmpty();
+  async getGames() {
+    await this.updateGamesListIfEmpty();
 
     this.sortGames();
+
     return this.cachedGameList;
   },
 
-  getGame(id) {
-    this.updateGamesListIfEmpty();
+  async getGameSnapshot(id) {
+    if (id == undefined) {
+      return null;
+    }
+    let response = await axios.get(`${this.baseUrl}/games/${id}/snapshot`);
 
-    return this.cachedGameList.find(function(game) {
-      return game.id == id;
-    });
+    let gameSnapshot = response.data.game;
+    gameSnapshot.userSnapshots = response.data.userSnapshots;
+
+    gameSnapshot.userSnapshots.sort(this.sortCompareFunction);
+
+    return gameSnapshot;
   },
 
-  updateGamesList() {
-    // set the internal list to the content from server.
+  async updateGamesList() {
+    let response = await axios.get(`${this.baseUrl}/games/running`);
 
-    this.cachedGameList.push({
-      id: 1,
-      title: "Game 1",
-      users: [
-        { id: 1, name: "Player 1", phase: 10, score: 28 },
-        { id: 3, name: "Player 3", phase: 2, score: 28 },
-        { id: 4, name: "Player 4", phase: 8, score: 28 },
-        { id: 5, name: "Player 5", phase: 2, score: 28 }
-      ]
-    });
-
-    this.cachedGameList.push({
-      id: 2,
-      title: "Game 2",
-      users: [
-        { id: 1, name: "Player 1", phase: 7, score: 28 },
-        { id: 2, name: "Player 2", phase: 8, score: 28 },
-        { id: 3, name: "Player 3", phase: 10, score: 28 },
-        { id: 4, name: "Player 4", phase: 9, score: 28 },
-        { id: 5, name: "Player 5", phase: 8, score: 12 }
-      ]
-    });
+    this.cachedGameList = response.data;
 
     this.updateSelectedGameContent();
   },
 
-  updateSelectedGameContent() {
+  async updateSelectedGameContent() {
     if (
-      this.selectedGameData != null &&
-      this.selectedGameData != undefined &&
-      this.selectedGameData != {}
+      this.selectedGameSnapshot != null &&
+      this.selectedGameSnapshot != undefined &&
+      this.selectedGameSnapshot != {}
     ) {
-      this.selectedGameData = this.getGame(this.selectedGameData.id);
+      this.selectedGameSnapshot = await this.getGameSnapshot(
+        this.selectedGameSnapshot.id
+      );
     }
   },
 
-  updateGamesListIfEmpty() {
+  async updateGamesListIfEmpty() {
     if (
       this.cachedGameList == undefined ||
       this.cachedGameList == null ||
       this.cachedGameList.length == 0
     )
-      this.updateGamesList();
+      await this.updateGamesList();
   },
 
-  saveRound(game, winner, doubled) {
-    console.log(game + winner + doubled);
-    // should call the server to save name;
-    this.updateGamesListIfEmpty();
+  async saveRound(game, winner, doubled) {
+    let users = [];
+
+    game.userSnapshots.forEach(element => {
+      let user = {
+        id: element.user.id,
+        points: element.user.score,
+        completedPhase: element.completedPhase
+      };
+
+      users.push(user);
+    });
+
+    await axios.post(`${this.baseUrl}/rounds`, {
+      gameId: game.id,
+      winnerId: winner.id,
+      doubled: doubled,
+      users: users
+    });
+
+    await this.updateSelectedGameContent();
   },
 
   gameFinished(game) {
     let finished = false;
-    game.users.forEach(user => {
+    game.userSnapshots.forEach(user => {
       if (user.phase == 10 && user.completedPhase) {
         finished = true;
         return;
@@ -136,14 +133,14 @@ export default {
     } else if (user.phase < otherUser.phase) {
       return +1;
     } else {
-      return user.score - otherUser.score;
+      return user.points - otherUser.points;
     }
   },
 
   createNewGame(game) {
     this.addGame(
       game.title,
-      game.users.map(user => user.id)
+      game.userSnapshots.map(userSnapshot => userSnapshot.user.id)
     );
   }
 };

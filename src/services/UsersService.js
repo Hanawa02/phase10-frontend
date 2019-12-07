@@ -1,18 +1,20 @@
+import axios from "axios";
+
 export default {
+  baseUrl: "http://192.168.178.101:3000",
+
   cachedUserList: [],
 
-  addUser(userName) {
-    let user = {
-      id: this.cachedUserList.length + 2,
+  async addUser(userName) {
+    let response = await axios.post(`${this.baseUrl}/users`, {
       name: userName
-    };
+    });
 
-    // * will push the created user returned by the server to the "cached" list
-    this.cachedUserList.push(user);
+    this.cachedUserList.push(response.data);
   },
 
-  deleteUser(userId) {
-    // * just call the delete from server and keep the removing from the "cached" list like it is
+  async deleteUser(userId) {
+    await axios.delete(`${this.baseUrl}/users/${userId}`);
 
     let list = this.cachedUserList.filter(function(user) {
       return user.id != userId;
@@ -21,47 +23,34 @@ export default {
     this.cachedUserList = list;
   },
 
-  updateUsersList() {
-    // set the internal list to the content from server.
+  async updateUsersList() {
+    let response = await axios.get(`${this.baseUrl}/users`);
 
-    this.cachedUserList.push({ id: 1, name: "Player 2" });
-    this.cachedUserList.push({ id: 2, name: "Player 08" });
-    this.cachedUserList.push({ id: 3, name: "Player 128" });
-    this.cachedUserList.push({ id: 4, name: "Player 1280" });
-    this.cachedUserList.push({ id: 5, name: "Player" });
+    this.cachedUserList = response.data;
   },
 
-  updateUsersListIfEmpty() {
+  async updateUsersListIfEmpty() {
     if (
       this.cachedUserList == undefined ||
       this.cachedUserList == null ||
       this.cachedUserList.length == 0
     )
-      this.updateUsersList();
+      await this.updateUsersList();
   },
 
-  getUsers() {
-    this.updateUsersListIfEmpty();
+  async getUsers() {
+    await this.updateUsersListIfEmpty();
 
     return this.cachedUserList;
   },
 
-  getUser(id) {
-    this.updateUsersListIfEmpty();
+  async getUser(id) {
+    await this.updateUsersListIfEmpty();
 
     let user = this.cachedUserList.find(function(user) {
       return user.id == id;
     });
 
     return user;
-  },
-
-  /* Can be deleted after connection to server */
-  getUserName(id) {
-    let user = this.getUser(id);
-
-    if (user != undefined) {
-      return user.name;
-    }
   }
 };

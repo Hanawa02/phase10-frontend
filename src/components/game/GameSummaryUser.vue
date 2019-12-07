@@ -1,9 +1,9 @@
 <template>
   <div class="game-summary-user">
     <font-awesome-icon class="trophy" icon="trophy" :class="positionClass" />
-    <div class="name">{{ user.name }}</div>
-    <div class="phase">{{ user.phase }}</div>
-    <div class="score">{{ user.score }}</div>
+    <div class="name">{{ userSnapshot.user.name }}</div>
+    <div class="phase">{{ userSnapshot.phase }}</div>
+    <div class="points">{{ userSnapshot.points }}</div>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 export default {
   name: "GameSummaryUser",
   props: {
-    user: Object,
+    userSnapshot: Object,
     position: Number
   },
   computed: {

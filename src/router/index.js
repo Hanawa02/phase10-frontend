@@ -13,41 +13,33 @@ const routes = [
   {
     path: "/games/new",
     name: "newGame",
-    component: () =>
-      import(/* webpackChunkName: "gamesCreate" */ "../views/GamesCreate.vue")
+    component: () => import("../views/GamesCreate.vue")
   },
   {
     path: "/games/:id",
     name: "gameDetails",
-    component: () =>
-      import(/* webpackChunkName: "gameDetails" */ "../views/GameDetails.vue")
+    component: () => import("../views/GameDetails.vue")
   },
   {
     path: "/games/:id/finishRound/",
     name: "finishRound",
-    component: () =>
-      import(
-        /* webpackChunkName: "gameFinishRound" */ "../views/GameFinishRound.vue"
-      )
+    component: () => import("../views/GameFinishRound.vue")
   },
   {
     path: "/games/:id/summary",
     name: "gameSummary",
-    component: () =>
-      import(/* webpackChunkName: "gameSummary" */ "../views/GameSummary.vue")
+    component: () => import("../views/GameSummary.vue")
   },
   {
     path: "/users",
     name: "Users",
-    component: () =>
-      import(/* webpackChunkName: "users" */ "../views/Users.vue")
+    component: () => import("../views/Users.vue")
   },
   {
     // will match everything
     path: "*",
     name: "Page Not Found",
-    component: () =>
-      import(/* webpackChunkName: "pagenotfound" */ "../views/NotFound.vue")
+    component: () => import("../views/NotFound.vue")
   }
 ];
 

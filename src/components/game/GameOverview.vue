@@ -24,12 +24,12 @@ export default {
     game: Object
   },
   methods: {
-    deleteGame() {
-      GamesService.deleteGame(this.game.id);
+    async deleteGame() {
+      await GamesService.deleteGame(this.game.id);
       this.$emit("element-deleted");
     },
-    selectGame() {
-      GamesService.setSelectedGame(this.game.id);
+    async selectGame() {
+      await GamesService.setSelectedGame(this.game.id);
       router.push({
         name: "gameDetails",
         params: {

@@ -15,15 +15,18 @@ import UsersService from "@/services/UsersService";
 
 export default {
   name: "UserList",
+  async mounted() {
+    this.users = await UsersService.getUsers();
+  },
   data() {
     return {
-      users: UsersService.getUsers()
+      users: []
     };
   },
   methods: {
-    deleteUser(id) {
-      UsersService.deleteUser(id);
-      this.users = UsersService.getUsers();
+    async deleteUser(id) {
+      await UsersService.deleteUser(id);
+      this.users = await UsersService.getUsers();
     }
   }
 };

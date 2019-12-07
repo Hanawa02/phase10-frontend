@@ -1,10 +1,10 @@
 <template>
   <div class="game-finish-round-user">
-    <div class="name">{{ user.name }}</div>
+    <div class="name">{{ userSnapshot.user.name }}</div>
     <input
       class="points"
       type="number"
-      v-model="user.points"
+      v-model="userSnapshot.user.score"
       @input="emitPointsUpdated()"
     />
     <button class="clean-button" @click="cleanPoints()">
@@ -17,14 +17,14 @@
 export default {
   name: "GameFinishRoundUser",
   props: {
-    user: Object
+    userSnapshot: Object
   },
   methods: {
     cleanPoints() {
-      this.user.points = 0;
+      this.userSnapshot.user.score = 0;
     },
     emitPointsUpdated() {
-      this.$emit("points-updated");
+      this.$emit("score-updated");
     }
   }
 };

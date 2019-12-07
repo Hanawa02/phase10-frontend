@@ -1,8 +1,11 @@
 <template>
   <div class="games">
     <div class="title">Game Over</div>
-    <div v-for="(user, index) in game.users" v-bind:key="user.id">
-      <GameSummaryUser :user="user" :position="index + 1" />
+    <div
+      v-for="(userSnapshot, index) in game.userSnapshots"
+      v-bind:key="userSnapshot.id"
+    >
+      <GameSummaryUser :userSnapshot="userSnapshot" :position="index + 1" />
     </div>
 
     <div class="next-action">
@@ -30,9 +33,12 @@ export default {
   components: {
     GameSummaryUser
   },
+  async mounted() {
+    this.game = await GamesService.selectedGameSnapshot;
+  },
   data() {
     return {
-      game: this.$route.params.game
+      game: {}
     };
   },
   methods: {
