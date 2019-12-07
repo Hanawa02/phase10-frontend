@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  baseUrl: "http://192.168.178.101:3000",
+  baseUrl: "http://eckon.me:3000",
 
   cachedUserList: [],
 

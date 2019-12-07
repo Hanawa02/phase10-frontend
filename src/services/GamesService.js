@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  baseUrl: "http://192.168.178.101:3000",
+  baseUrl: "http://eckon.me:3000",
 
   cachedGameList: [],
 
@@ -59,8 +59,6 @@ export default {
     let response = await axios.get(`${this.baseUrl}/games/running`);
 
     this.cachedGameList = response.data;
-
-    this.updateSelectedGameContent();
   },
 
   async updateSelectedGameContent() {
@@ -87,7 +85,7 @@ export default {
   async saveRound(game, winner, doubled) {
     let users = [];
 
-    game.userSnapshots.forEach(element => {
+    for (const element of game.userSnapshots) {
       let user = {
         id: element.user.id,
         points: element.user.score,
@@ -95,7 +93,7 @@ export default {
       };
 
       users.push(user);
-    });
+    }
 
     await axios.post(`${this.baseUrl}/rounds`, {
       gameId: game.id,
@@ -105,26 +103,25 @@ export default {
     });
 
     await this.updateSelectedGameContent();
+    await this.updateGamesList();
   },
 
   gameFinished(game) {
-    let finished = false;
-    game.userSnapshots.forEach(user => {
+    for (const user of game.userSnapshots) {
       if (user.phase == 10 && user.completedPhase) {
-        finished = true;
-        return;
+        return true;
       }
-    });
+    }
 
-    return finished;
+    return false;
   },
 
   sortGames() {
-    this.cachedGameList.forEach(game => {
+    for (let game of this.cachedGameList) {
       game.users.sort((firstUser, secondUser) => {
         return this.sortCompareFunction(firstUser, secondUser);
       });
-    });
+    }
   },
 
   sortCompareFunction(user, otherUser) {

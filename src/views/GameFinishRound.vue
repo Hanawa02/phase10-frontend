@@ -72,7 +72,7 @@ export default {
     toggleSaveButton() {
       let exit = false;
 
-      this.game.userSnapshots.forEach(userSnapshot => {
+      for (let userSnapshot of this.game.userSnapshots) {
         if (
           userSnapshot.user.id != this.winner.id &&
           (userSnapshot.user.score == undefined ||
@@ -83,7 +83,7 @@ export default {
           exit = true;
           return;
         }
-      });
+      }
 
       if (exit) return;
 
