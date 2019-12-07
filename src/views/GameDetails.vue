@@ -52,13 +52,13 @@ export default {
         }
       });
     },
-    getGameData() {
+    async getGameData() {
       let selectedGame = GamesService.selectedGameSnapshot;
 
-      if (selectedGame.id == this.$route.params.id) {
+      if (selectedGame.id === this.$route.params.id) {
         this.game = selectedGame;
       } else {
-        this.game = GamesService.getGameSnapshot(this.$route.params.id);
+        this.game = await GamesService.getGameSnapshot(this.$route.params.id);
       }
 
       if (this.game == undefined) {

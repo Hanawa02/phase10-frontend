@@ -6,23 +6,23 @@
     </div>
 
     <div id="nav">
-      <router-link to="/">
+      <router-link to="/" class="full-width">
         <font-awesome-icon icon="home" />
       </router-link>
-
-      <router-link to="/users">
+      <router-link to="/users" class="full-width">
         <font-awesome-icon icon="users" />
       </router-link>
-
       <font-awesome-icon
         v-if="!onFullScreen"
         icon="compress"
         @click="goFullScreen()"
+        class="full-width"
       />
       <font-awesome-icon
         v-if="onFullScreen"
         icon="caret-left"
         @click="goBack()"
+        class="full-width"
       />
     </div>
     <router-view id="app-container" />
@@ -118,6 +118,9 @@ body {
   border-top: 2px solid $blue-light-medium;
   background-color: $blue-light;
 
+  .full-width {
+    width: 100%;
+  }
   a {
     text-decoration: none;
     font-weight: bold;

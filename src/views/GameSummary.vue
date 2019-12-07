@@ -42,8 +42,8 @@ export default {
     };
   },
   methods: {
-    createNewGame() {
-      GamesService.createNewGame(this.game);
+    async createNewGame() {
+      await GamesService.createNewGame(this.game);
       this.goToGameOverview();
     },
     goToGameOverview() {
