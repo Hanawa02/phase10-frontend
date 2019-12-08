@@ -6,9 +6,6 @@
       <div class="name">Player</div>
       <div class="phase">Phase</div>
       <div class="points">Points</div>
-      <div class="phase-completed">
-        <font-awesome-icon icon="check-circle" />
-      </div>
     </div>
     <div class="users-container">
       <div
@@ -77,8 +74,7 @@ $border: 1px solid $blue-light-medium;
 
 .game-detail {
   font-family: "Play";
-  margin: 10px auto;
-  width: 80%;
+  margin: 10px 5px;
 
   .users-container {
     border: $border;
@@ -88,7 +84,8 @@ $border: 1px solid $blue-light-medium;
     @include details;
     border: $border;
     font-weight: bold;
-    background-color: $blue-light;
+    background-color: $blue-medium;
+    color: $white;
     padding: 5px 0px;
   }
 

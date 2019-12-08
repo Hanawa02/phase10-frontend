@@ -1,5 +1,5 @@
 /* Colors */
-
+$blue-transparent: #e8f0f5;
 $blue-light: #b3cde0;
 $blue-light-medium: #6497b1;
 $blue-medium: #005b96;
@@ -62,28 +62,30 @@ $screen-extra-large: 1200px;
 @mixin details {
   display: flex;
   color: $blue-dark;
-  padding: 5px 0px;
   font-size: 1.3em;
+  $inner-padding: 7px 0px;
+
   .name {
     width: calc(40% - 5px);
     text-align: left;
+    padding: 7px 10px;
+    border-left: 2px solid $blue-light;
   }
 
   .phase {
     width: 20%;
+    padding: $inner-padding;
   }
 
   .points {
     width: 20%;
-  }
-
-  .phase-completed {
-    width: 10%;
+    padding: $inner-padding;
   }
 
   .winner-button {
-    width: 10%;
-    color: $blue-medium-dark;
+    width: 20%;
+    color: inherit;
+    padding: $inner-padding;
   }
 }
 
@@ -127,12 +129,17 @@ $screen-extra-large: 1200px;
 }
 
 @mixin save-button {
-  margin: 15px auto;
   @include icon-button($blue-medium-dark);
+  margin: 15px auto;
   font-size: 1.28rem;
+  border: 1px solid $blue-light;
+  padding: 5px;
+  border-radius: 15px;
+  width: 20%;
+  background-color: $blue-light;
 
   &:disabled {
-    color: $blue-light;
+    color: $blue-transparent;
   }
 }
 

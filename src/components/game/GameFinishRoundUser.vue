@@ -4,12 +4,10 @@
     <input
       class="points"
       type="number"
-      v-model="userSnapshot.user.score"
+      v-model="score"
       @input="emitPointsUpdated()"
+      @focus="$event.target.select()"
     />
-    <button class="clean-button" @click="cleanPoints()">
-      <font-awesome-icon icon="broom" />
-    </button>
   </div>
 </template>
 
@@ -19,11 +17,14 @@ export default {
   props: {
     userSnapshot: Object
   },
+  data() {
+    return {
+      score: 0
+    };
+  },
   methods: {
-    cleanPoints() {
-      this.userSnapshot.user.score = 0;
-    },
     emitPointsUpdated() {
+      this.userSnapshot.user.score = this.score;
       this.$emit("score-updated");
     }
   }
@@ -40,6 +41,7 @@ export default {
   border: 1px solid $blue-light;
   border-collapse: collapse;
   justify-content: center;
+  font-size: 1.3em;
 
   width: 80%;
   margin: 0 auto;
@@ -51,12 +53,7 @@ export default {
   .points {
     width: calc(10%);
     text-align: center;
-  }
-
-  .clean-button {
-    @include icon-button($blue-dark);
-
-    width: calc(10%);
+    font-size: 1em;
   }
 }
 </style>

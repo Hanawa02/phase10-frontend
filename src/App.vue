@@ -118,6 +118,7 @@ body {
   color: $blue-medium;
   width: 100%;
 
+  z-index: 2;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-around;
