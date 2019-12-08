@@ -2,13 +2,13 @@
   <div class="game-detail" v-if="game">
     <div class="title">{{ game.title }}</div>
     <div class="column-descriptin">
+      <font-awesome-icon class="winner-button" icon="trophy" />
       <div class="name">Player</div>
       <div class="phase">Phase</div>
       <div class="points">Points</div>
       <div class="phase-completed">
         <font-awesome-icon icon="check-circle" />
       </div>
-      <font-awesome-icon class="winner-button" icon="trophy" />
     </div>
     <div class="users-container">
       <div
@@ -77,7 +77,8 @@ $border: 1px solid $blue-light-medium;
 
 .game-detail {
   font-family: "Play";
-  margin: 10px;
+  margin: 10px auto;
+  width: 80%;
 
   .users-container {
     border: $border;

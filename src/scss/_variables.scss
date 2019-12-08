@@ -40,6 +40,7 @@ $screen-extra-large: 1200px;
 
 @mixin subtitle-background {
   background-color: $blue-light;
+  font-size: 1.2rem;
 }
 
 @mixin title-text-style {
@@ -62,9 +63,10 @@ $screen-extra-large: 1200px;
   display: flex;
   color: $blue-dark;
   padding: 5px 0px;
-
+  font-size: 1.3em;
   .name {
     width: calc(40% - 5px);
+    text-align: left;
   }
 
   .phase {

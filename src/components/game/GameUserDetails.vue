@@ -1,6 +1,11 @@
 <template>
   <div class="game-user-detail">
-    <div class="name">{{ userSnapshot.user.name }}</div>
+    <font-awesome-icon
+      icon="trophy"
+      class="winner-button"
+      @click="selectWinner()"
+    />
+    <div class="name" @click="selectWinner()">{{ userSnapshot.user.name }}</div>
     <div class="phase">{{ userSnapshot.phase }}</div>
     <div class="points">{{ userSnapshot.points }}</div>
 
@@ -8,12 +13,6 @@
       class="phase-completed"
       type="checkbox"
       v-model="userSnapshot.completedPhase"
-    />
-
-    <font-awesome-icon
-      icon="trophy"
-      class="winner-button"
-      @click="selectWinner()"
     />
   </div>
 </template>
@@ -39,7 +38,12 @@ export default {
 
 .game-user-detail {
   @include details;
-
+  border: 1px solid $blue-light;
+  .winner-button {
+    & :active {
+      color: $blue-light;
+    }
+  }
   .phase-completed {
     margin: 0;
   }

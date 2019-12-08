@@ -79,14 +79,17 @@ export default {
   &:fullscreen {
     background-color: white;
   }
+
+  overflow-y: scroll;
 }
 
 body {
   margin: 0;
   outline: none;
+  font-size: 1.2em;
 }
 #app-container {
-  margin-bottom: calc(1em + 40px);
+  margin-bottom: calc(1rem + 40px);
 }
 
 #app {
@@ -98,7 +101,7 @@ body {
 
 .logo {
   font-family: "Playball", cursive;
-  font-size: 1.8em;
+  font-size: 1.8rem;
   padding: 10px;
   margin-bottom: 10px;
   background-color: $blue-medium;

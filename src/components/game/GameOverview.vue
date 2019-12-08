@@ -48,7 +48,7 @@ $border-radius: 12px;
 .game {
   border: 1px solid $blue-light-medium;
   border-radius: $border-radius;
-  margin: 5px;
+  margin: 15px;
 
   .title {
     @include title-style(0px, $blue-light);

@@ -67,7 +67,7 @@ export default {
   .next-action {
     margin: 15px 5px;
 
-    font-size: 1.1em;
+    font-size: 1.1rem;
   }
 
   .buttons {
