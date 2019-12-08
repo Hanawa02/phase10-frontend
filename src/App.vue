@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="logo">
+    <div class="logo" v-if="notOnLandscape">
       Phase
       <span class="logo-10">10</span>
     </div>
@@ -35,10 +35,12 @@ import router from "@/router/index.js";
 export default {
   mounted() {
     document.addEventListener("fullscreenchange", this.updateButton);
+    window.addEventListener("orientationchange", this.updateLogo);
   },
   data() {
     return {
-      isOnFullScreen: false
+      isOnFullScreen: false,
+      isNotOnLandscape: true
     };
   },
   methods: {
@@ -50,11 +52,19 @@ export default {
     },
     updateButton() {
       this.isOnFullScreen = document.fullscreenElement != null;
+    },
+    updateLogo() {
+      this.isNotOnLandscape = window.matchMedia(
+        "(orientation: landscape)"
+      ).matches;
     }
   },
   computed: {
     onFullScreen() {
       return this.isOnFullScreen;
+    },
+    notOnLandscape() {
+      return this.isNotOnLandscape;
     }
   }
 };
@@ -73,6 +83,7 @@ export default {
 
 body {
   margin: 0;
+  outline: none;
 }
 #app-container {
   margin-bottom: calc(1em + 40px);
@@ -125,9 +136,14 @@ body {
     text-decoration: none;
     font-weight: bold;
     color: $blue-light-medium;
+    outline: none;
 
+    & :active {
+      outline: none;
+    }
     & :hover {
       color: $blue-dark;
+      outline: none;
     }
 
     &.router-link-exact-active {
