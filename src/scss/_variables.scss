@@ -64,26 +64,27 @@ $screen-extra-large: 1200px;
   color: $blue-dark;
   font-size: 1.3em;
   $inner-padding: 7px 0px;
+  align-items: center;
+
+  .phase {
+    width: 17%;
+    padding: $inner-padding;
+  }
 
   .name {
-    width: calc(40% - 5px);
+    width: calc(33% - 5px);
     text-align: left;
     padding: 7px 10px;
     border-left: 2px solid $blue-light;
   }
 
-  .phase {
-    width: 20%;
-    padding: $inner-padding;
-  }
-
-  .points {
-    width: 20%;
+  .status {
+    width: 25%;
     padding: $inner-padding;
   }
 
   .winner-button {
-    width: 20%;
+    width: 25%;
     color: inherit;
     padding: $inner-padding;
   }
@@ -153,4 +154,22 @@ $screen-extra-large: 1200px;
   font-family: "Play";
   font-size: 1rem;
   font-weight: bold;
+}
+
+@mixin trophy-position {
+  .first {
+    color: $gold;
+  }
+
+  .second {
+    color: $silver;
+  }
+
+  .third {
+    color: $bronze;
+  }
+
+  .no-position {
+    color: transparent;
+  }
 }

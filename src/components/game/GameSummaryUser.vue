@@ -57,20 +57,6 @@ export default {
     width: calc(60% - 5px);
   }
 
-  .first {
-    color: $gold;
-  }
-
-  .second {
-    color: $silver;
-  }
-
-  .third {
-    color: $bronze;
-  }
-
-  .no-position {
-    color: transparent;
-  }
+  @include trophy-position;
 }
 </style>

@@ -133,9 +133,6 @@ body {
   border-top: 2px solid $blue-light-medium;
   background-color: $blue-light;
 
-  .full-width {
-    width: 100%;
-  }
   a {
     text-decoration: none;
     font-weight: bold;

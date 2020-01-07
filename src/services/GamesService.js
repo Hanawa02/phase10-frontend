@@ -8,6 +8,8 @@ export default {
   selectedGameSnapshot: {},
 
   async setSelectedGame(gameId) {
+    if (this.selectedGameSnapshot.id === gameId) return;
+
     this.selectedGameSnapshot = await this.getGameSnapshot(gameId);
   },
 
@@ -51,6 +53,10 @@ export default {
     gameSnapshot.userSnapshots = response.data.userSnapshots;
 
     gameSnapshot.userSnapshots.sort(this.sortCompareFunction);
+
+    for (let [index, user] of gameSnapshot.userSnapshots.entries()) {
+      user.position = index + 1;
+    }
 
     return gameSnapshot;
   },
@@ -138,6 +144,15 @@ export default {
     this.addGame(
       game.title,
       game.userSnapshots.map(userSnapshot => userSnapshot.user.id)
+    );
+  },
+
+  updateUserSnapshot(userSnapshot) {
+    if (!this.selectedGameSnapshot.userSnapshots) return;
+
+    this.selectedGameSnapshot.userSnapshots = this.selectedGameSnapshot.userSnapshots.map(
+      snapshot =>
+        snapshot.user.id === userSnapshot.user.id ? userSnapshot : snapshot
     );
   }
 };

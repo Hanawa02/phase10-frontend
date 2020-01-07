@@ -2,10 +2,10 @@
   <div class="game-detail" v-if="game">
     <div class="title">{{ game.title }}</div>
     <div class="column-descriptin">
-      <font-awesome-icon class="winner-button" icon="trophy" />
+      <div class="phase">Current Phase</div>
       <div class="name">Player</div>
-      <div class="phase">Phase</div>
-      <div class="points">Points</div>
+      <div class="status">Phase Status</div>
+      <div class="winner-button">Finish Game</div>
     </div>
     <div class="users-container">
       <div
@@ -55,7 +55,8 @@ export default {
       if (selectedGame.id === this.$route.params.id) {
         this.game = selectedGame;
       } else {
-        this.game = await GamesService.getGameSnapshot(this.$route.params.id);
+        await GamesService.setSelectedGame(this.$route.params.id);
+        this.game = GamesService.selectedGameSnapshot;
       }
 
       if (this.game == undefined) {

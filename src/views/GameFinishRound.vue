@@ -14,6 +14,7 @@
         v-if="userSnapshot.user.id != winner.id"
         :userSnapshot="userSnapshot"
         @score-updated="toggleSaveButton()"
+        @finish-game="saveRound()"
       />
     </div>
     <div class="doubled-button">

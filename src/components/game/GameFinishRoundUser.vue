@@ -7,6 +7,7 @@
       v-model="score"
       @input="emitPointsUpdated()"
       @focus="$event.target.select()"
+      @keypress.enter="emitFinishGame()"
     />
   </div>
 </template>
@@ -26,6 +27,10 @@ export default {
     emitPointsUpdated() {
       this.userSnapshot.user.score = this.score;
       this.$emit("score-updated");
+    },
+    emitFinishGame() {
+      console.log("finish game pressed");
+      this.$emit("finish-game");
     }
   }
 };
