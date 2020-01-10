@@ -101,8 +101,6 @@ export default {
         return [];
       } else {
         result = result.sort(this.comparerFunction);
-        console.log(this.comparerFunction["name"]);
-        console.log(result[0].user.name);
         return result;
       }
     }

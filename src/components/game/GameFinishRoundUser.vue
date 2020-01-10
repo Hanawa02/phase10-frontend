@@ -29,7 +29,6 @@ export default {
       this.$emit("score-updated");
     },
     emitFinishGame() {
-      console.log("finish game pressed");
       this.$emit("finish-game");
     }
   }
