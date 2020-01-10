@@ -7,6 +7,8 @@ export default {
 
   selectedGameSnapshot: {},
 
+  selectedComparer: undefined,
+
   async setSelectedGame(gameId) {
     if (this.selectedGameSnapshot.id === gameId) return;
 
@@ -124,13 +126,11 @@ export default {
 
   sortGames() {
     for (let game of this.cachedGameList) {
-      game.users.sort((firstUser, secondUser) => {
-        return this.sortCompareFunction(firstUser, secondUser);
-      });
+      game.users.sort(this.compareByPhase);
     }
   },
 
-  sortCompareFunction(user, otherUser) {
+  compareByPhase(user, otherUser) {
     if (user.phase > otherUser.phase) {
       return -1;
     } else if (user.phase < otherUser.phase) {
@@ -140,6 +140,16 @@ export default {
     }
   },
 
+  compareByName(user, otherUser) {
+    if ("" + user.user.name < "" + otherUser.user.name) {
+      return -1;
+    }
+    if ("" + user.user.name > "" + otherUser.user.name) {
+      return +1;
+    }
+
+    return 0;
+  },
   createNewGame(game) {
     this.addGame(
       game.title,
@@ -154,5 +164,12 @@ export default {
       snapshot =>
         snapshot.user.id === userSnapshot.user.id ? userSnapshot : snapshot
     );
+  },
+
+  setSelectedComparer(comparer) {
+    this.selectedComparer = comparer;
+    if (this.selectedComparer === undefined) {
+      this.selectedComparer = this.compareByPhase;
+    }
   }
 };

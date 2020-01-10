@@ -14,7 +14,8 @@ import {
   faSave,
   faBroom,
   faSadCry,
-  faCaretLeft
+  faCaretLeft,
+  faSortAlphaDown
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -30,7 +31,8 @@ library.add(
   faSave,
   faBroom,
   faSadCry,
-  faCaretLeft
+  faCaretLeft,
+  faSortAlphaDown
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

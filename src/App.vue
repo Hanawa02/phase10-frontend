@@ -7,11 +7,12 @@
 
     <div id="nav">
       <router-link to="/" class="full-width">
-        <font-awesome-icon icon="home" />
-      </router-link>
+        <font-awesome-icon icon="home" /> </router-link
+      >|
       <router-link to="/users" class="full-width">
-        <font-awesome-icon icon="users" />
-      </router-link>
+        <font-awesome-icon icon="users" /> </router-link
+      >|
+
       <font-awesome-icon
         v-if="!onFullScreen"
         icon="compress"
@@ -150,6 +151,11 @@ body {
     &.router-link-exact-active {
       color: $blue-medium;
     }
+  }
+
+  .full-width {
+    width: 33%;
+    cursor: pointer;
   }
 }
 
