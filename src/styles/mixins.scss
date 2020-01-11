@@ -1,0 +1,150 @@
+@mixin title-style-with-font($margin-bottom, $border-bottom-color) {
+  @include title-style($margin-bottom, $border-bottom-color);
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+@mixin title-style($margin-bottom, $border-bottom-color) {
+  padding: 5px;
+  color: $blue-medium-dark;
+  text-align: center;
+  border-bottom: 1px solid $border-bottom-color;
+  margin-bottom: $margin-bottom;
+  position: relative;
+}
+
+@mixin subtitle-background {
+  background-color: $blue-light;
+  font-size: 1.2rem;
+}
+
+@mixin title-text-style {
+  margin: 0 auto;
+  display: inline-block;
+  color: $blue-medium-dark;
+}
+
+@mixin title-button-style($fontsize) {
+  float: right;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+
+  font-size: $fontsize;
+  @include icon-button($blue-medium-dark);
+}
+
+@mixin details {
+  display: flex;
+  color: $blue-dark;
+  font-size: 1.3em;
+  $inner-padding: 7px 0px;
+  align-items: center;
+
+  .phase {
+    width: 17%;
+    padding: $inner-padding;
+  }
+
+  .name {
+    width: calc(33% - 5px);
+    text-align: left;
+    padding: 7px 10px;
+    border-left: 2px solid $blue-light;
+  }
+
+  .status {
+    width: 25%;
+    padding: $inner-padding;
+  }
+
+  .winner-button {
+    width: 25%;
+    color: inherit;
+    padding: $inner-padding;
+  }
+}
+
+@mixin icon-button($color) {
+  color: $color;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+@mixin user-list-and-button {
+  color: $blue-dark;
+  margin: 10px;
+
+  .user {
+    border-bottom: 1px solid $blue-light;
+    padding: 2px;
+
+    .name {
+      width: 90%;
+      display: inline-block;
+    }
+
+    .delete-button {
+      @include icon-button($blue-medium-dark);
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+@mixin description {
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  align-self: center;
+  border: 1px solid $blue-light;
+  padding: 3px;
+  font-size: 1rem;
+}
+
+@mixin save-button {
+  @include icon-button($blue-medium-dark);
+  margin: 15px auto;
+  font-size: 1.28rem;
+  border: 1px solid $blue-light;
+  padding: 5px;
+  border-radius: 15px;
+  width: 20%;
+  background-color: $blue-light;
+
+  &:disabled {
+    color: $blue-transparent;
+  }
+}
+
+@mixin standard-button {
+  border: 1px solid $blue-dark;
+  background-color: $blue-light;
+  color: $blue-dark;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 5px;
+  font-family: "Play";
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+@mixin trophy-position {
+  .first {
+    color: $gold;
+  }
+
+  .second {
+    color: $silver;
+  }
+
+  .third {
+    color: $bronze;
+  }
+
+  .no-position {
+    color: transparent;
+  }
+}
