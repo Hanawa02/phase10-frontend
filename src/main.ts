@@ -11,10 +11,30 @@ import {
   faUsers,
   faCompress,
   faCaretLeft,
-  faSadCry
+  faSadCry,
+  faTrashAlt,
+  faPlusCircle,
+  faTrophy,
+  faSortAlphaDown,
+  faSave,
+  faTimesCircle,
+  faCheckCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faHome, faUsers, faCompress, faCaretLeft, faSadCry);
+library.add(
+  faHome,
+  faUsers,
+  faCompress,
+  faCaretLeft,
+  faSadCry,
+  faTrashAlt,
+  faPlusCircle,
+  faTrophy,
+  faSortAlphaDown,
+  faSave,
+  faTimesCircle,
+  faCheckCircle
+);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="lds-spinner" v-if="isLoading">
+    <div class="lds-spinner" v-if="false">
       <div></div>
       <div></div>
       <div></div>
@@ -18,42 +18,45 @@
       Phase
       <span class="logo-10">10</span>
     </div>
-    <div id="nav">
-      <router-link to="/" class="full-width">
-        <font-awesome-icon icon="home" /> </router-link
-      >|
-      <router-link to="/users" class="full-width">
-        <font-awesome-icon icon="users" /> </router-link
-      >|
+    <div ref="fullscreen" id="app-fullscreen-container">
+      <div id="nav">
+        <router-link to="/" class="full-width">
+          <font-awesome-icon icon="home" /> </router-link
+        >|
+        <router-link to="/users" class="full-width">
+          <font-awesome-icon icon="users" /> </router-link
+        >|
 
-      <font-awesome-icon
-        v-if="!onFullScreen"
-        icon="compress"
-        @click="goFullScreen()"
-        class="full-width"
-      />
-      <font-awesome-icon
-        v-if="onFullScreen"
-        icon="caret-left"
-        @click="goBack()"
-        class="full-width"
-      />
+        <font-awesome-icon
+          v-if="!onFullScreen"
+          icon="compress"
+          @click="goFullScreen()"
+          class="full-width"
+        />
+        <font-awesome-icon
+          v-if="onFullScreen"
+          icon="caret-left"
+          @click="goBack()"
+          class="full-width"
+        />
+      </div>
+      <router-view id="app-container" />
     </div>
-    <router-view id="app-container" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { IHTMLDocument } from "./models/html-document";
 
 @Component
 export default class App extends Vue {
   isOnFullScreen: boolean = false;
   isNotOnLandscape: boolean = true;
-  isLoading: boolean = false;
 
   goFullScreen() {
-    document.getElementById("app").requestFullscreen();
+    const fullscreen: any = this.$refs.fullscreen;
+    fullscreen.requestFullscreen();
   }
 
   goBack() {
@@ -71,9 +74,11 @@ export default class App extends Vue {
   }
 
   goToMainPage() {
-    this.$router.push({
-      name: "games"
-    });
+    if (this.$router.currentRoute.name !== "games") {
+      this.$router.push({
+        name: "games"
+      });
+    }
   }
 
   get onFullScreen() {
@@ -91,14 +96,15 @@ export default class App extends Vue {
 @import "./styles/fonts.scss";
 @import "./styles/mixins.scss";
 
-#app {
+#app,
+#app-fullscreen-container {
   background-color: white;
 
   &:fullscreen {
     background-color: white;
   }
 
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 body {
@@ -119,7 +125,7 @@ body {
 
 .logo {
   font-family: "Playball", cursive;
-  font-size: 1.8rem;
+  font-size: 1.8em;
   padding: 10px;
   margin-bottom: 10px;
   background-color: $blue-medium;
@@ -189,7 +195,7 @@ body {
   margin-bottom: -80px;
 }
 .lds-spinner div {
-  transform-origin: 1.8rem 1.8rem;
+  transform-origin: 1.8em 1.8em;
   animation: lds-spinner 1.2s linear infinite;
 }
 .lds-spinner div:after {
@@ -197,9 +203,9 @@ body {
   display: block;
   position: absolute;
   top: 3px;
-  left: 1.6rem;
+  left: 1.6em;
   width: 6px;
-  height: 1rem;
+  height: 1em;
   border-radius: 20%;
   background: #fff;
 }

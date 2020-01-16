@@ -25,14 +25,14 @@ export default class PageNotFound extends Vue {
 @import "../styles/colors.scss";
 
 .not-found {
-  font-size: 2rem;
+  font-size: 2em;
   color: $blue-medium;
   display: inline-block;
   margin: 10%;
 }
 
 .icon {
-  font-size: 2.8rem;
+  font-size: 2.8em;
   margin: 10px;
   display: inline-block;
 }
