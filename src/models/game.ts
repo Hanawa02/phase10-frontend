@@ -10,7 +10,7 @@ export interface IGame {
 
 export class Game implements IGame {
   constructor(
-    public readonly id: string,
+    public id: string,
     public title: string,
     public users: IGameUser[]
   ) {}

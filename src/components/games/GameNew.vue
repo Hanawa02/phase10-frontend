@@ -111,6 +111,7 @@ export default class GameNew extends Vue {
 .games-create {
   font-family: "Play";
   margin: 10px;
+  overflow-wrap: break-word;
 
   .title {
     @include title-style-with-font(10px, $blue-medium-dark);

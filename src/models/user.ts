@@ -4,7 +4,7 @@ export interface IUser {
 }
 
 export class User implements IUser {
-  constructor(public readonly id: string, public name: string) {}
+  constructor(public id: string, public name: string) {}
 }
 
 export const nullUser = new User("", "");

@@ -28,11 +28,14 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { IGame } from "../../models/game";
+import { IGame, nullGame } from "../../models/game";
 
 @Component
 export default class Games extends Vue {
   get games(): IGame[] {
+    if (this.$store.state.games.includes(nullGame)) {
+      this.$store.dispatch("updateGamesList");
+    }
     return this.$store.state.games;
   }
 
@@ -65,6 +68,7 @@ export default class Games extends Vue {
 .games-overview {
   font-family: "Play";
   margin: 10px;
+  overflow-wrap: break-word;
 
   .title {
     @include title-style(10px, $blue-medium-dark);

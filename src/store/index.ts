@@ -1,41 +1,39 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { Store } from "vuex";
 import { IState } from "../models/state";
 import { Game, nullGame, IGame } from "@/models/game";
-import { User } from "@/models/user";
+import { User, nullUser } from "@/models/user";
 import { GameUser, IGameUser } from "@/models/game-user";
 import { GameUserComparingFunction } from "@/mixins/game-user-comparing-functions";
+import { GameUserRoundInfo } from "@/models/game-user-round-info";
+import { BackendAPI } from "@/apis/backend-api";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     games: [
-      new Game("1", "Game 1", [
-        new GameUser(new User("1", "User 1")),
-        new GameUser(new User("2", "User 2")),
-        new GameUser(new User("3", "User 3")),
-        new GameUser(new User("4", "User 4"))
-      ]),
-      new Game("2", "Game 2", [
-        new GameUser(new User("1", "User 1")),
-        new GameUser(new User("2", "User 2"))
-      ]),
-      new Game("3", "Game 3", [
-        new GameUser(new User("1", "User 1")),
-        new GameUser(new User("3", "User 3"))
-      ]),
-      new Game("4", "Game 4", [
-        new GameUser(new User("2", "User 2")),
-        new GameUser(new User("4", "User 4"))
-      ])
+      nullGame
+      // new Game("1", "Game 1", [
+      //   new GameUser(new User("1", "User B"), 28, new GameUserRoundInfo(10)),
+      //   new GameUser(new User("2", "User A"), 12),
+      //   new GameUser(new User("3", "User F"), 2),
+      //   new GameUser(new User("4", "User G"), 8)
+      // ]),
+      // new Game("2", "Game 2", [
+      //   new GameUser(new User("1", "User B")),
+      //   new GameUser(new User("2", "User A"))
+      // ]),
+      // new Game("3", "Game 3", [
+      //   new GameUser(new User("1", "User B")),
+      //   new GameUser(new User("3", "User F"))
+      // ]),
+      // new Game("4", "Game 4", [
+      //   new GameUser(new User("2", "User A")),
+      //   new GameUser(new User("4", "User C"))
+      // ])
     ],
-    users: [
-      new User("1", "User 1"),
-      new User("2", "User 2"),
-      new User("3", "User 3"),
-      new User("4", "User 4")
-    ],
+    users: [nullUser],
     isLoading: false,
     selectedGame: nullGame,
     selectedGameRoundWinnerId: "",
@@ -94,26 +92,20 @@ export default new Vuex.Store({
       this.dispatch("updateGamesList");
     },
     updateGamesList({ commit }) {
-      // call server
-      let gameList = this.state.games;
-      commit("setGameList", gameList);
+      BackendAPI.getGameList().then(gameList => {
+        commit("setGameList", gameList);
+      });
     },
     createUser({ commit }, name: string) {
-      // need to call server to add game
-      console.log(name);
-
-      this.dispatch("updateUserList");
+      BackendAPI.addUser(name).then(() => this.dispatch("updateUserList"));
     },
     deleteUser({ commit }, id: string) {
-      // need to call server to add game
-      console.log(id);
-
-      this.dispatch("updateUserList");
+      BackendAPI.deleteUser(id).then(() => this.dispatch("updateUserList"));
     },
     updateUserList({ commit }) {
-      // call server
-      let userList = this.state.users;
-      commit("setUserList", userList);
+      BackendAPI.getUsersList().then(userList => {
+        commit("setUserList", userList);
+      });
     },
     saveRound({ commit }, doubledPoints: boolean) {
       // call server

@@ -6,6 +6,7 @@
       name="NameInput"
       v-model="userName"
       placeholder="player name"
+      @keypress.enter="addUser()"
     />
     <button class="save-button" @click="addUser()" :disabled="disableAddButton">
       <font-awesome-icon icon="save" />

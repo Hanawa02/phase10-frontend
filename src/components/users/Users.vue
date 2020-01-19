@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import UserCreate from "./UserCreate.vue";
-import { IUser } from "../../models/user";
+import { User, nullUser } from "../../models/user";
 
 @Component({
   components: {
@@ -24,10 +24,15 @@ import { IUser } from "../../models/user";
   }
 })
 export default class Users extends Vue {
-  users: IUser[] = [];
-
   mounted() {
-    this.users = this.$store.state.users;
+    this.$store.dispatch("updateUserList");
+  }
+
+  get users(): User[] {
+    if (this.$store.state.users.includes(nullUser)) {
+      this.$store.dispatch("updateUserList");
+    }
+    return this.$store.state.users;
   }
 
   deleteUser(id: string) {

@@ -12,7 +12,7 @@ export interface IGameUser {
 
 export class GameUser implements IGameUser {
   constructor(
-    public readonly user: IUser,
+    public user: IUser,
     public points: number = 0,
     public roundInfo: IGameUserRoundInfo = getNullGameUserRoundInfo()
   ) {}

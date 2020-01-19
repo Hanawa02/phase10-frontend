@@ -26,7 +26,7 @@
           <font-awesome-icon
             class="trophy"
             icon="trophy"
-            :class="positionClass(game.getUserPosition(gameUser.user.id))"
+            :class="positionClass(gameUser.user.id)"
           />
         </div>
         <div class="status">
@@ -38,7 +38,9 @@
             "
             @click="toggleCompletedPhase(gameUser.user.id)"
           >
-            {{ gameUser.user.phaseCompleted ? "completed" : "not completed" }}
+            {{
+              gameUser.roundInfo.completedPhase ? "completed" : "not completed"
+            }}
           </button>
         </div>
         <div class="winner-button">
@@ -56,11 +58,12 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { IGame, nullGame } from "../../models/game";
 import { IGameUser } from "../../models/game-user";
 import { GameUserComparingFunction } from "../../mixins/game-user-comparing-functions";
+import { ClassFunctions } from "../../mixins/get-class-function";
 
 @Component
 export default class Game extends Vue {
   game: IGame = nullGame;
-  compareFunction: any = this.$store.state.gameUserCompareFunction;
+  compareFunction: any;
   sorting: boolean = false;
 
   mounted() {
@@ -77,38 +80,31 @@ export default class Game extends Vue {
         name: "games"
       });
     }
-
+    this.compareFunction = this.$store.state.gameUserCompareFunction;
     this.sorting = this.compareFunction === GameUserComparingFunction.byName;
   }
 
   get sortedGameUsers(): IGameUser[] {
     return this.game.users.slice().sort(this.compareFunction);
   }
-  positionClass(userPosition: number) {
-    let classAtr: string = "";
 
-    switch (userPosition) {
-      case 1:
-        classAtr = "first";
-        break;
-      case 2:
-        classAtr = "second";
-        break;
-      case 3:
-        classAtr = "third";
-        break;
-      default:
-        classAtr = "no-position";
-    }
-
-    return classAtr;
+  positionClass(userId: string) {
+    let userPosition = this.game.getUserPosition(userId);
+    return ClassFunctions.getPositionClass(userPosition);
   }
+
   toggleCompletedPhase(userId: string) {
     this.$store.commit("togglePhaseCompleted", userId);
   }
 
   finishRound(winnerUserId: string) {
     this.$store.commit("setSelectedGameRoundWinnerId", winnerUserId);
+
+    let winner = this.game.users.find(user => user.user.id === winnerUserId);
+
+    if (winner && !winner.roundInfo.completedPhase) {
+      this.toggleCompletedPhase(winnerUserId);
+    }
 
     this.$router.push({
       name: "gameRound",
@@ -122,16 +118,13 @@ export default class Game extends Vue {
     this.sorting = !this.sorting;
 
     if (this.sorting) {
-      this.$store.commit(
-        "setgameUserCompareFunction",
-        GameUserComparingFunction.byName
-      );
+      this.compareFunction = GameUserComparingFunction.byName;
     } else {
-      this.$store.commit(
-        "setgameUserCompareFunction",
-        GameUserComparingFunction.byPhase
-      );
+      this.compareFunction = GameUserComparingFunction.byPhase;
     }
+
+    this.$store.commit("setgameUserCompareFunction", this.compareFunction);
+    this.game.users.sort(this.compareFunction);
   }
 }
 </script>
@@ -146,6 +139,7 @@ $font-size-standard: 1em;
 .game-detail {
   font-family: "Play";
   margin: 10px 5px;
+  overflow-wrap: break-word;
 
   .users-container {
     border: $border;
@@ -236,6 +230,7 @@ $font-size-standard: 1em;
       text-align: center;
       display: inline-block;
       cursor: pointer;
+      box-shadow: 0px 1px 1px $blue-light-medium;
 
       &:hover {
         background-color: $blue-dark;

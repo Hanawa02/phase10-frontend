@@ -69,6 +69,7 @@ export default class GameRound extends Vue {
     this.winner = this.$store.getters.user(
       this.$store.state.selectedGameRoundWinnerId
     );
+
     this.game = this.$store.state.selectedGame;
   }
 
@@ -99,10 +100,10 @@ export default class GameRound extends Vue {
 
     for (let gameUser of this.game.users) {
       if (
-        gameUser.user.id != this.winner.id &&
-        (gameUser.roundInfo.points == undefined ||
-          gameUser.roundInfo.points == null ||
-          gameUser.roundInfo.points == 0)
+        gameUser.user.id !== this.winner.id &&
+        (gameUser.roundInfo.points === undefined ||
+          gameUser.roundInfo.points === null ||
+          gameUser.roundInfo.points === 0)
       ) {
         this.disableSaveButton = true;
         exit = true;
@@ -122,6 +123,7 @@ export default class GameRound extends Vue {
       userId,
       points: +inputElement[0].value
     });
+    this.toggleSaveButton();
   }
 }
 </script>
@@ -134,6 +136,7 @@ export default class GameRound extends Vue {
 .game-finish-round {
   font-family: "Play";
   margin: 10px;
+  overflow-wrap: break-word;
 
   .title {
     @include title-style-with-font(10px, $blue-light-medium);
