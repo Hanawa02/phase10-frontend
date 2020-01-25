@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <div class="lds-spinner" v-if="false">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div class="spinner-container" v-if="isLoading">
+      <div class="lds-spinner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
     <div class="logo" v-if="notOnLandscape" @click="goToMainPage()">
       Phase
@@ -54,9 +56,17 @@ export default class App extends Vue {
   isOnFullScreen: boolean = false;
   isNotOnLandscape: boolean = true;
 
+  mounted() {
+    this.$store.dispatch("updateUserList");
+    this.$store.dispatch("updateGamesList");
+
+    document.addEventListener("fullscreenchange", this.updateButton);
+    window.addEventListener("orientationchange", this.updateLogo);
+  }
+
   goFullScreen() {
-    const fullscreen: any = this.$refs.fullscreen;
-    fullscreen.requestFullscreen();
+    const fullscreenElement: any = this.$refs.fullscreen;
+    fullscreenElement.requestFullscreen();
   }
 
   goBack() {
@@ -64,7 +74,7 @@ export default class App extends Vue {
   }
 
   updateButton() {
-    this.isOnFullScreen = document.fullscreenElement != null;
+    this.isOnFullScreen = document.fullscreenElement !== null;
   }
 
   updateLogo() {
@@ -88,6 +98,10 @@ export default class App extends Vue {
   get notOnLandscape() {
     return this.isNotOnLandscape;
   }
+
+  get isLoading(): boolean {
+    return this.$store.getters.isLoading;
+  }
 }
 </script>
 
@@ -104,7 +118,7 @@ export default class App extends Vue {
     background-color: white;
   }
 
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -186,13 +200,21 @@ body {
     cursor: pointer;
   }
 }
+$spinner-color: $blue-dark;
+$shadows-screen-color: #005b9640;
 
+.spinner-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: $shadows-screen-color;
+  z-index: 3;
+}
 .lds-spinner {
-  float: right;
+  width: 3.5em;
+  margin: 0 auto;
   position: relative;
-  width: 80px;
-  height: 80px;
-  margin-bottom: -80px;
+  top: calc(50% - calc(3.5em / 2));
 }
 .lds-spinner div {
   transform-origin: 1.8em 1.8em;
@@ -207,7 +229,7 @@ body {
   width: 6px;
   height: 1em;
   border-radius: 20%;
-  background: #fff;
+  background: $spinner-color;
 }
 .lds-spinner div:nth-child(1) {
   transform: rotate(0deg);

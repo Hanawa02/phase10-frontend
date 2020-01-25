@@ -9,7 +9,11 @@ export class GameUserRoundInfo {
     public phase: number = 1,
     public completedPhase: boolean = false,
     public points: number = 0
-  ) {}
+  ) {
+    if (this.phase > 10) {
+      this.phase = 10;
+    }
+  }
 }
 
 export function getNullGameUserRoundInfo() {

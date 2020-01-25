@@ -13,14 +13,15 @@
       <div class="game-finish-round-user" v-if="gameUser.user.id != winner.id">
         <div class="name">{{ gameUser.user.name }}</div>
         <input
-          class="points"
+          class="points-input"
           type="number"
           :min="0"
           :max="999"
+          :id="inputPrefix + gameUser.user.id"
           :ref="inputPrefix + gameUser.user.id"
           @input="emitPointsUpdated(gameUser.user.id)"
           @focus="$event.target.select()"
-          @keypress.enter="saveRound()"
+          @keypress.enter="saveRound($event)"
         />
       </div>
     </div>
@@ -69,25 +70,32 @@ export default class GameRound extends Vue {
     this.winner = this.$store.getters.user(
       this.$store.state.selectedGameRoundWinnerId
     );
-
     this.game = this.$store.state.selectedGame;
+
+    this.$nextTick(() => {
+      document.getElementsByClassName("points-input")[0].focus();
+    });
   }
 
-  saveRound() {
+  saveRound(event: Event) {
+    if (this.disableSaveButton) {
+      const selectedElement: any = event.srcElement;
+      const inputs = Array.from(
+        document.getElementsByClassName("points-input")
+      );
+      inputs[inputs.indexOf(selectedElement) + 1].focus();
+      return;
+    }
     let shouldShowSummary = this.$store.getters.isSelectedGameFinished;
 
-    this.$store.dispatch("saveRound", this.doubled);
+    this.$store.dispatch("saveRound", {
+      doubled: this.doubled,
+      redirect: !shouldShowSummary
+    });
 
     if (shouldShowSummary) {
       this.$router.push({
         name: "gameEnd",
-        params: {
-          id: this.game.id
-        }
-      });
-    } else {
-      this.$router.push({
-        name: "game",
         params: {
           id: this.game.id
         }
@@ -175,7 +183,7 @@ export default class GameRound extends Vue {
       width: calc(80% - 5px);
     }
 
-    .points {
+    .points-input {
       width: calc(10%);
       text-align: center;
       font-size: 1em;

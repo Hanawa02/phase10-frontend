@@ -2,6 +2,7 @@ import Vue from "vue";
 import { Game, nullGame } from "@/models/game";
 import { User } from "@/models/user";
 import { GameUser } from "@/models/game-user";
+import { GameUserRoundInfo } from "@/models/game-user-round-info";
 
 export abstract class BackendAPI {
   private static baseUrl: string = "http://eckon.me:3000";
@@ -39,6 +40,7 @@ export abstract class BackendAPI {
   }
 
   public static async getGameInfo(gameId: string): Promise<Game> {
+    let result = nullGame;
     if (gameId === undefined) {
       console.log("An error ocurred in 'BackendAPI.getGameInfo':");
       console.log("Game Id is undefined!");
@@ -49,19 +51,20 @@ export abstract class BackendAPI {
     await Vue.axios
       .get(`${this.baseUrl}/games/${gameId}/snapshot`)
       .then((response: any) => {
-        console.log(response.data);
+        result = new Game(
+          response.data.game.id,
+          response.data.game.title,
+          response.data.userSnapshots.map((item: any) => {
+            return new GameUser(
+              new User(item.user.id, item.user.name),
+              item.points,
+              new GameUserRoundInfo(item.phase, false, 0)
+            );
+          })
+        );
       });
 
-    // let gameSnapshot = response.data.game;
-    // gameSnapshot.userSnapshots = response.data.userSnapshots;
-
-    // gameSnapshot.userSnapshots.sort(this.sortCompareFunction);
-
-    // for (let [index, user] of gameSnapshot.userSnapshots.entries()) {
-    //   user.position = index + 1;
-    // }
-
-    return nullGame;
+    return result;
   }
 
   public static async getGameList(): Promise<Game[]> {
@@ -90,25 +93,21 @@ export abstract class BackendAPI {
     game: Game,
     winnerId: string,
     doubled: boolean
-  ) {
-    let users = [];
-
-    // for (const element of game.users) {
-    //   let user = {
-    //     id: element.user.id,
-    //     points: element.user.score,
-    //     completedPhase: element.completedPhase
-    //   };
-
-    //   users.push(user);
-    // }
-
+  ): Promise<Game> {
     await Vue.axios.post(`${this.baseUrl}/rounds`, {
       gameId: game.id,
       winnerId: winnerId,
       doubled: doubled,
-      users: []
+      users: game.users.map((item: GameUser) => {
+        return {
+          id: item.user.id,
+          points: item.roundInfo.points,
+          completedPhase: item.roundInfo.completedPhase
+        };
+      })
     });
+
+    return this.getGameInfo(game.id);
   }
 
   public static async addUser(userName: string): Promise<boolean> {
@@ -144,7 +143,6 @@ export abstract class BackendAPI {
     await Vue.axios
       .get(`${this.baseUrl}/users`)
       .then((response: any) => {
-        console.log("getUsersList" + response);
         result = response.data;
       })
       .catch((error: any) => {

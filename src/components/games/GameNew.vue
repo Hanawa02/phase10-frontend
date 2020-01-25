@@ -48,18 +48,19 @@ import { IUser } from "../../models/user";
 @Component
 export default class GameNew extends Vue {
   gameTitle: string = "";
-  users: IUser[] = [];
+  get users(): IUser[] {
+    return this.$store.getters.users;
+  }
   selectedUsersId: string[] = [];
 
   mounted() {
-    this.users = this.$store.state.users;
-    this.users.sort();
-
     if (this.users.length === 0) {
       this.$router.push({
         name: "users"
       });
     }
+
+    this.users.sort();
   }
 
   saveGame() {

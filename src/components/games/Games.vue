@@ -8,7 +8,7 @@
     </div>
     <div v-for="game in games" :key="game.id" class="game">
       <div class="title">
-        <h3 class="text" @click="selectGame()">{{ game.title }}</h3>
+        <h3 class="text" @click="selectGame(game.id)">{{ game.title }}</h3>
         <button id="delete-game-button" @click="deleteGame(game.id)">
           <font-awesome-icon icon="trash-alt" />
         </button>
@@ -49,13 +49,7 @@ export default class Games extends Vue {
     this.$store.dispatch("deleteGame", gameId);
   }
   selectGame(gameId: string) {
-    this.$store.commit("setSelectedGame", gameId);
-    this.$router.push({
-      name: "game",
-      params: {
-        id: gameId
-      }
-    });
+    this.$store.dispatch("setSelectedGame", gameId);
   }
 }
 </script>

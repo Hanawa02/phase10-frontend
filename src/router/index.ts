@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Games from "../components/games/Games.vue";
+import Store from "../store/index";
 
 Vue.use(VueRouter);
 
@@ -62,4 +63,12 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  Store.commit("startLoading");
+  next();
+});
+
+router.afterEach((to, from) => {
+  Store.commit("stopLoading");
+});
 export default router;

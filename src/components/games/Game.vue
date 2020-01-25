@@ -70,7 +70,7 @@ export default class Game extends Vue {
     let gameId = this.$route.params.id;
 
     if (!this.$store.getters.selectedGameUpToDate(gameId)) {
-      this.$store.commit("setSelectedGame", gameId);
+      this.$store.dispatch("setSelectedGame", gameId);
     }
 
     this.game = this.$store.state.selectedGame;
