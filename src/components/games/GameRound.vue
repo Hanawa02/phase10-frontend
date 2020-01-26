@@ -73,7 +73,7 @@ export default class GameRound extends Vue {
     this.game = this.$store.state.selectedGame;
 
     this.$nextTick(() => {
-      document.getElementsByClassName("points-input")[0].focus();
+      (document as any).getElementsByClassName("points-input")[0].focus();
     });
   }
 
@@ -83,7 +83,7 @@ export default class GameRound extends Vue {
       const inputs = Array.from(
         document.getElementsByClassName("points-input")
       );
-      inputs[inputs.indexOf(selectedElement) + 1].focus();
+      (inputs as any)[inputs.indexOf(selectedElement) + 1].focus();
       return;
     }
     let shouldShowSummary = this.$store.getters.isSelectedGameFinished;
