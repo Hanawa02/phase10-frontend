@@ -17,9 +17,6 @@ export abstract class BackendAPI {
         userIds: userIds
       })
       .catch((error: any) => {
-        // console.log("An error ocurred in 'BackendAPI.addGame':");
-        // console.log(error);
-
         //add error handling: modal to display errors
         return false;
       });
@@ -30,9 +27,6 @@ export abstract class BackendAPI {
     await Vue.axios
       .delete(`${this.baseUrl}/games/${gameId}`)
       .catch((error: any) => {
-        // console.log("An error ocurred in 'BackendAPI.deleteGame':");
-        // console.log(error);
-
         //add error handling: modal to display errors
         return false;
       });
@@ -42,9 +36,7 @@ export abstract class BackendAPI {
   public static async getGameInfo(gameId: string): Promise<Game> {
     let result = nullGame;
     if (gameId === undefined) {
-      // console.log("An error ocurred in 'BackendAPI.getGameInfo':");
-      // console.log("Game Id is undefined!");
-      //add error handling: modal to display errors
+      return result;
     }
 
     await Vue.axios
@@ -80,8 +72,6 @@ export abstract class BackendAPI {
         });
       })
       .catch((error: any) => {
-        // console.log("An error ocurred in 'BackendAPI.getGameList':");
-        // console.log(error);
         //add error handling: modal to display errors
       });
     return result;
@@ -114,9 +104,6 @@ export abstract class BackendAPI {
         name: userName
       })
       .catch((error: any) => {
-        // console.log("An error ocurred in 'BackendAPI.addUser':");
-        // console.log(error);
-
         //add error handling: modal to display errors
         return false;
       });
@@ -127,9 +114,6 @@ export abstract class BackendAPI {
     await Vue.axios
       .delete(`${this.baseUrl}/users/${userId}`)
       .catch((error: any) => {
-        // console.log("An error ocurred in 'BackendAPI.deleteUser':");
-        // console.log(error);
-
         //add error handling: modal to display errors
         return false;
       });
@@ -144,8 +128,6 @@ export abstract class BackendAPI {
         result = response.data;
       })
       .catch((error: any) => {
-        // console.log("An error ocurred in 'BackendAPI.getUsersList':");
-        // console.log(error);
         //add error handling: modal to display errors
       });
     return result;
