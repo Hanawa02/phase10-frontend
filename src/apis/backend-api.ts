@@ -5,7 +5,7 @@ import { GameUser } from "@/models/game-user";
 import { GameUserRoundInfo } from "@/models/game-user-round-info";
 
 export abstract class BackendAPI {
-  private static baseUrl: string = "https://eckon.me:3000";
+  private static baseUrl: string = "https://phase10-backend.herokuapp.com";
 
   public static async addGame(
     gameTitle: string,
