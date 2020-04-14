@@ -1,4 +1,6 @@
-# phase10-frontend
+# Documentation
+
+Deployed and automatically updated by Netlify (master branch).
 
 ## Project setup
 ```
