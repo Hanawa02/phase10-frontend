@@ -83,7 +83,10 @@ export default class GameRound extends Vue {
       const inputs = Array.from(
         document.getElementsByClassName("points-input")
       );
-      (inputs as any)[inputs.indexOf(selectedElement) + 1].focus();
+      if (inputs) {
+        (inputs as any)[inputs.indexOf(selectedElement) + 1].focus();
+      }
+
       return;
     }
     let shouldShowSummary = this.$store.getters.isSelectedGameFinished;
@@ -92,6 +95,8 @@ export default class GameRound extends Vue {
       doubled: this.doubled,
       redirect: !shouldShowSummary
     });
+
+    this.disableSaveButton = true;
 
     if (shouldShowSummary) {
       this.$router.push({
